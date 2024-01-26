@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "io.armandukx.rpccraft.mixin",
+	"compatibilityLevel": "JAVA_16",
+	"mixins": [
+		"ExampleMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
