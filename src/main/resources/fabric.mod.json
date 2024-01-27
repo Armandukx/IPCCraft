@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "rpccfraft",
+	"id": "rpccraft",
 	"version": "${version}",
-	"name": "RPCCfraft",
+	"name": "rpccraft",
 	"description": "Advanced Discord RPC plugin for Minecraft",
 	"authors": [
 		"Armandukx"
@@ -11,23 +11,16 @@
 		"homepage": "https://modrinth.com/mod/00000",
 		"sources": "https://github.com/Armandukx/rpccraft"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/rpccfraft/icon.png",
+	"license": "CC-BY-NC-ND 4.0",
+	"logo": "logo.png",
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-			"io.armandukx.rpccraft.RPCCfraft"
+          "io.armandukx.rpccraft.RPCCraft"
 		]
 	},
-	"mixins": [
-		"rpccfraft.mixins.json"
-	],
 	"depends": {
 		"minecraft": "~1.16.5",
-		"java": ">=16",
-		"fabric-resource-loader-v0": "*",
-		"fabric-rendering-v1": "*",
-		"fabric-lifecycle-events-v1": "*",
-		"fabric-key-binding-api-v1": "*"
+		"java": "~16"
 	}
 }
