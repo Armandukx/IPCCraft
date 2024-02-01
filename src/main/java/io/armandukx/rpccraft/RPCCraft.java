@@ -1,90 +1,79 @@
 package io.armandukx.rpccraft;
 
-import club.minnced.discord.rpc.DiscordEventHandlers;
-import club.minnced.discord.rpc.DiscordRPC;
-import club.minnced.discord.rpc.DiscordRichPresence;
+import io.armandukx.rpccraft.command.RPCCraftCommand;
+import io.armandukx.rpccraft.config.Config;
+import io.armandukx.rpccraft.config.Configurations;
+import io.armandukx.rpccraft.util.CheckWorld;
+import io.armandukx.rpccraft.util.DiscordPresence;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ConnectScreen;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class RPCCraft implements ClientModInitializer {
-	public static final String VERSION = "1.0.1";
+	public static final String VERSION = "1.0.2";
+	public static final String prefix =
+			Formatting.LIGHT_PURPLE + "[R" + Formatting.LIGHT_PURPLE + "P" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "r" + Formatting.LIGHT_PURPLE + "a" + Formatting.LIGHT_PURPLE + "f" + Formatting.LIGHT_PURPLE + "t] " + Formatting.RESET;
 	String currentScreenString = "NULL";
 	MinecraftClient client = MinecraftClient.getInstance();
+	private static Config config;
+	private static DiscordPresence discordPresence;
 	@Override
 	public void onInitializeClient() {
-		DiscordRPC lib = DiscordRPC.INSTANCE;
-		lib.Discord_Initialize("1200554143874555935", new DiscordEventHandlers(), true, "");
-		DiscordRichPresence presence = new DiscordRichPresence();
-		presence.startTimestamp = System.currentTimeMillis() / 1000;
+		config = new Config();
+		discordPresence = new DiscordPresence();
+		Configurations.init("rpccraft", Configurations.class);
 
-		ClientTickEvents.START_CLIENT_TICK.register(client -> ChangePresence("Playing Singleplayer", client.world, lib, presence));
+		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> RPCCraftCommand.register(dispatcher));
+		ChangePresence("LMC", client.world);
+
+		ClientTickEvents.START_CLIENT_TICK.register(client -> ChangePresence("Playing Singleplayer", client.world));
+		ClientLifecycleEvents.CLIENT_STOPPING.register(server -> {
+			System.out.println("Saving Config");
+			config.saveConfig();
+			System.out.println("Stopping Discord IPC");
+			discordPresence.clearPresence();
+		});
 	}
 
-	public void ChangePresence(String StateString, World world, DiscordRPC lib, DiscordRichPresence presence){
-		Screen currentScreen = client.currentScreen;
+	public void ChangePresence(String StateString, World world){
+		String imageText;
+		String imageKey;
 
-		String imageText = "";
-		String imageKey = "";
-
-		if (world != null) {
-			RegistryKey<World> dimensionKey = world.getRegistryKey();
-
-			if (dimensionKey == World.OVERWORLD) {
-				imageText = "Overworld";
-				imageKey = "overworld";
-			} else if (dimensionKey == World.NETHER) {
-				imageText = "Nether";
-				imageKey = "nether";
-			} else if (dimensionKey == World.END) {
-				imageText = "End";
-				imageKey = "end";
-			}
-		} else {
-			imageText = "Main Menu";
-			imageKey = "main_menu";
-			if (currentScreen instanceof ConnectScreen) {
-				StateString = "Connecting to a server";
-			} else {
-				StateString = "Chilling";
-			}
+		String[] largeStateInfo = discordPresence.getLargeStateInfo(world, StateString);
+		imageText = largeStateInfo[0];
+		imageKey = largeStateInfo[1];
+		if (!largeStateInfo[2].equals(StateString)){
+			StateString = largeStateInfo[2];
 		}
 
-		if (isSinglePlayer(world) && currentScreenString.equals(imageText)) {
+		if (CheckWorld.isSinglePlayer(world) && currentScreenString.equals(imageText)) {
 			return;
 		}
 
-		String DetailsString = currentScreenString.equals("Main Menu") ? imageText : "NULL";
+		String DetailsString= "null";
 
-		if (isSinglePlayer(world)) {
-			DetailsString = "Currently In The " + imageText;
-		}else {
-			ClientPlayNetworkHandler networkHandler = client.getNetworkHandler();
-			if (networkHandler != null) {
-				String ServerAddress = networkHandler.getConnection().getAddress().toString().split("[/\\\\]")[0];
-				int playerCount = networkHandler.getPlayerList().size();
-				DetailsString = "Playing with " + playerCount + " Minecrafters";
-				StateString = "Playing Multiplayer";
-				imageText = ServerAddress;
-				imageKey = "https://eu.mc-api.net/v3/server/favicon/" + ServerAddress;
+		String[] playerWorldInfo = discordPresence.getWorldInfo(world, imageText);
+
+		if (playerWorldInfo != null && playerWorldInfo.length >= 2) {
+			DetailsString = playerWorldInfo[0];
+
+			if (playerWorldInfo.length >= 3) {
+				StateString = playerWorldInfo[1];
+			}
+
+			if (playerWorldInfo.length >= 4) {
+				imageText = playerWorldInfo[2];
+				imageKey = playerWorldInfo[3];
 			}
 		}
 
-		presence.details = DetailsString;
-		presence.state = StateString;
-		presence.largeImageText = imageText;
-		presence.largeImageKey = imageKey;
-		lib.Discord_UpdatePresence(presence);
-	}
-	public boolean isSinglePlayer(World world) {
-		if (world != null && client.isIntegratedServerRunning()) {
-			return true;
-		}
-		else return world == null;
+		StateString = discordPresence.checkForIdle(StateString);
+
+		String[] smallImageInfo = discordPresence.getSmallImageInfo(world);
+		discordPresence.Update(DetailsString, StateString, imageText, imageKey, smallImageInfo[0], smallImageInfo[1]);
 	}
 }

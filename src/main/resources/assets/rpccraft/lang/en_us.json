@@ -1,0 +1,9 @@
+{
+  "rpccraft.rpcconfig.title": "RPCCraft Settings",
+  "rpccraft.rpcconfig.useClock": "Use Clock",
+  "rpccraft.rpcconfig.useClock.tooltip": "Use the Clock icon instead of your Minecraft Head and display the world time.",
+  "rpccraft.rpcconfig.sendConfigSettingsMessage": "Configuration Message",
+  "rpccraft.rpcconfig.sendConfigSettingsMessage.tooltip": "The message that gets sent in a multiplayer world.",
+  "rpccraft.rpcconfig.useBrokenEnglish": "Use Broken Eglish",
+  "rpccraft.rpcconfig.useBrokenEnglish.tooltip": "Self explanatory."
+}
