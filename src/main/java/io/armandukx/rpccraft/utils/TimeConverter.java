@@ -1,4 +1,4 @@
-package io.armandukx.rpccraft.util;
+package io.armandukx.rpccraft.utils;
 
 public class TimeConverter {
     public static String convert(long minecraftTime) {

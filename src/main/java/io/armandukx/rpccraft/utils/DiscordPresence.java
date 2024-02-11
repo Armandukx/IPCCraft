@@ -1,4 +1,4 @@
-package io.armandukx.rpccraft.util;
+package io.armandukx.rpccraft.utils;
 
 import io.armandukx.rpccraft.RPCCraft;
 import io.armandukx.rpccraft.config.Configurations;
@@ -37,11 +37,13 @@ public class DiscordPresence {
 
     public void Update(String details, String state, String largeImageText, String largeImageKey, String smallImageKey, String smallImageText){
         if (client != null && client.getStatus() == PipeStatus.CONNECTED) {
+            clearPresence();
             client.sendRichPresence(builder.setDetails(details)
                     .setDetails(details)
                     .setState(state)
                     .setLargeImage(largeImageKey, largeImageText)
-                    .setSmallImage(smallImageKey,smallImageText).build());
+                    .setSmallImage(smallImageKey,smallImageText)
+                    .build());
         }
     }
 

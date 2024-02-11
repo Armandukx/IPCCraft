@@ -1,4 +1,4 @@
-package io.armandukx.rpccraft.util;
+package io.armandukx.rpccraft.utils;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.registry.RegistryKey;

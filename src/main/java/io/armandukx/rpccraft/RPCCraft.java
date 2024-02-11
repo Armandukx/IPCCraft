@@ -3,8 +3,10 @@ package io.armandukx.rpccraft;
 import io.armandukx.rpccraft.command.RPCCraftCommand;
 import io.armandukx.rpccraft.config.Config;
 import io.armandukx.rpccraft.config.Configurations;
-import io.armandukx.rpccraft.util.CheckWorld;
-import io.armandukx.rpccraft.util.DiscordPresence;
+import io.armandukx.rpccraft.config.RPCConfig;
+import io.armandukx.rpccraft.utils.CheckWorld;
+import io.armandukx.rpccraft.utils.DiscordPresence;
+import io.armandukx.rpccraft.utils.UpdateChecker;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -14,7 +16,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class RPCCraft implements ClientModInitializer {
-	public static final String VERSION = "1.0.2";
+	public static final String VERSION = "1.0.3";
+	public static final String MCVERSION = "1.16.5";
 	public static final String prefix =
 			Formatting.LIGHT_PURPLE + "[R" + Formatting.LIGHT_PURPLE + "P" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "r" + Formatting.LIGHT_PURPLE + "a" + Formatting.LIGHT_PURPLE + "f" + Formatting.LIGHT_PURPLE + "t] " + Formatting.RESET;
 	String currentScreenString = "NULL";
@@ -25,6 +28,7 @@ public class RPCCraft implements ClientModInitializer {
 	public void onInitializeClient() {
 		config = new Config();
 		discordPresence = new DiscordPresence();
+		UpdateChecker.init();
 		Configurations.init("rpccraft", Configurations.class);
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> RPCCraftCommand.register(dispatcher));

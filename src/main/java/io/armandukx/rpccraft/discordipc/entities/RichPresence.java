@@ -15,11 +15,11 @@
  */
 package io.armandukx.rpccraft.discordipc.entities;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-
 import java.time.OffsetDateTime;
+
+import io.armandukx.rpccraft.config.Configurations;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * An encapsulation of all data needed to properly construct a JSON RichPresence payload.
@@ -69,7 +69,7 @@ public class RichPresence
     }
 
     /**
-     * Constructs a {@link JsonObject} representing a payload to send to discord
+     * Constructs a {@link JSONObject} representing a payload to send to discord
      * to update a user's Rich Presence.
      *
      * <p>This is purely internal, and should not ever need to be called outside of
@@ -77,67 +77,55 @@ public class RichPresence
      *
      * @return A JSONObject payload for updating a user's Rich Presence.
      */
-    public JsonObject toJson()
-    {
-        JsonObject timestampsObject = new JsonObject();
-
-        if (startTimestamp != null)
-            timestampsObject.addProperty("start", startTimestamp.toEpochSecond());
-
-        if (endTimestamp != null)
-            timestampsObject.addProperty("end", endTimestamp.toEpochSecond());
-
-        JsonObject assetsObject = new JsonObject();
-
-        if (largeImageKey != null)
-            assetsObject.addProperty("large_image", largeImageKey);
-
-        if (largeImageText != null)
-            assetsObject.addProperty("large_text", largeImageText);
-
-        if (smallImageKey != null)
-            assetsObject.addProperty("small_image", smallImageKey);
-
-        if (smallImageText != null)
-            assetsObject.addProperty("small_text", smallImageText);
-
-        JsonObject partyObject = null;
-        if (partyId != null) {
-            partyObject = new JsonObject();
-            partyObject.addProperty("id", partyId);
-            JsonArray partySizeArray = new JsonArray();
-            partySizeArray.add(new JsonPrimitive(partySize));
-            partySizeArray.add(new JsonPrimitive(partyMax));
-            partyObject.add("size", partySizeArray);
+    public JSONObject toJson() {
+        String button1Url = "null";
+        String button1Text = null;
+        String button2Url = "null";
+        String button2Text = null;
+        if (Configurations.button1Url != "null") {
+            button1Url = Configurations.button1Url;
+            button1Text = Configurations.button1Text;
         }
+        if (Configurations.button2Url != "null"){
+            button2Url = Configurations.button2Url;
+            button2Text = Configurations.button2Text;
+        }
+        if (Configurations.promoteRPCCraft) {
+            button1Url = "https://modrinth.com/mod/rpccraft";
+            button1Text = "Download RPCCraft";
+            button2Url = "https://discord.com/invite/MGrNJqsqZt";
+            button2Text = "Discord Server";
+        }
+        JSONObject jsonObject = new JSONObject()
+                .put("state", state)
+                .put("details", details)
+                //.put("buttons", sList)
+                .put("timestamps", new JSONObject()
+                        .put("start", startTimestamp == null ? null : startTimestamp.toEpochSecond())
+                        .put("end", endTimestamp == null ? null : endTimestamp.toEpochSecond()))
+                .put("assets", new JSONObject()
+                        .put("large_image", largeImageKey)
+                        .put("large_text", largeImageText)
+                        .put("small_image", smallImageKey)
+                        .put("small_text", smallImageText))
+                .put("party", partyId == null ? null : new JSONObject()
+                        .put("id", partyId)
+                        .put("size", new JSONArray().put(partySize).put(partyMax)))
+                .put("instance", instance);
 
-        JsonObject secretsObject = new JsonObject();
-
-        if (joinSecret != null)
-            secretsObject.addProperty("join", joinSecret);
-
-        if (spectateSecret != null)
-            secretsObject.addProperty("spectate", spectateSecret);
-
-        if (matchSecret != null)
-            secretsObject.addProperty("match", matchSecret);
-
-        JsonObject jsonObject = new JsonObject();
-
-        if (state != null)
-            jsonObject.addProperty("state", state);
-
-        if (details != null)
-            jsonObject.addProperty("details", details);
-
-        jsonObject.add("timestamps", timestampsObject);
-        jsonObject.add("assets", assetsObject);
-
-        if (partyObject != null)
-            jsonObject.add("party", partyObject);
-
-        jsonObject.add("secrets", secretsObject);
-        jsonObject.addProperty("instance", instance);
+        JSONArray buttonsArray = new JSONArray();
+        if (!button1Url.equals("null")) {
+            jsonObject.put("buttons", buttonsArray);
+            buttonsArray.put(new JSONObject()
+                    .put("label", button1Text)
+                    .put("url", button1Url));
+        }
+        if (!button2Url.equals("null")) {
+            jsonObject.put("buttons", buttonsArray);
+            buttonsArray.put(new JSONObject()
+                    .put("label", button2Text)
+                    .put("url", button2Url));
+        }
 
         return jsonObject;
     }

@@ -15,9 +15,9 @@
  */
 package io.armandukx.rpccraft.discordipc;
 
-import com.google.gson.JsonObject;
 import io.armandukx.rpccraft.discordipc.entities.Packet;
 import io.armandukx.rpccraft.discordipc.entities.User;
+import org.json.JSONObject;
 
 /**
  * An implementable listener used to handle events caught by an {@link IPCClient}.<p>
@@ -86,9 +86,9 @@ public interface IPCListener
      * Fired whenever an {@link IPCClient} has closed.
      *
      * @param client The now closed IPCClient.
-     * @param json A {@link JsonObject} with close data.
+     * @param json A {@link JSONObject} with close data.
      */
-    default void onClose(IPCClient client, JsonObject json) {}
+    default void onClose(IPCClient client, JSONObject json) {}
 
     /**
      * Fired whenever an {@link IPCClient} has disconnected,

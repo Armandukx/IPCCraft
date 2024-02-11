@@ -16,13 +16,13 @@
 
 package io.armandukx.rpccraft.discordipc.entities.pipe;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import io.armandukx.rpccraft.discordipc.IPCClient;
 import io.armandukx.rpccraft.discordipc.entities.Callback;
 import io.armandukx.rpccraft.discordipc.entities.Packet;
-import io.armandukx.rpccraft.discordipc.entities.serialize.PacketDeserializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +34,7 @@ import java.util.HashMap;
 public class WindowsPipe extends Pipe
 {
 
-    private static final Logger LOGGER = LogManager.getLogger(WindowsPipe.class);
+    private static final Logger LOGGER = LogManager.getLogger(IPCClient.class);
 
     private final RandomAccessFile file;
 
@@ -54,7 +54,7 @@ public class WindowsPipe extends Pipe
     }
 
     @Override
-    public Packet read() throws IOException {
+    public Packet read() throws IOException, JSONException {
         while(file.length() == 0 && status == PipeStatus.CONNECTED)
         {
             try {
@@ -73,13 +73,7 @@ public class WindowsPipe extends Pipe
         byte[] d = new byte[len];
 
         file.readFully(d);
-
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Packet.class, new PacketDeserializer(op))
-                .create();
-        JsonObject jsonObject = gson.fromJson(new String(d), JsonObject.class);
-        Packet p = gson.fromJson(jsonObject, Packet.class);
-
+        Packet p = new Packet(op, new JSONObject(new String(d)));
         LOGGER.debug(String.format("Received packet: %s", p.toString()));
         if(listener != null)
             listener.onPacketReceived(ipcClient, p);
@@ -89,7 +83,7 @@ public class WindowsPipe extends Pipe
     @Override
     public void close() throws IOException {
         LOGGER.debug("Closing IPC pipe...");
-        send(Packet.OpCode.CLOSE, new JsonObject(), null);
+        send(Packet.OpCode.CLOSE, new JSONObject(), null);
         status = PipeStatus.CLOSED;
         file.close();
     }
