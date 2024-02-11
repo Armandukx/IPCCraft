@@ -2,6 +2,7 @@ package io.armandukx.rpccraft.utils;
 
 import com.google.gson.JsonObject;
 import io.armandukx.rpccraft.RPCCraft;
+import io.armandukx.rpccraft.discordipc.IPCClient;
 import io.armandukx.rpccraft.handler.APIHandler;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.minecraft.client.MinecraftClient;
@@ -10,9 +11,11 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class UpdateChecker {
-
+    private static final Logger LOGGER = LogManager.getLogger(IPCClient.class);
     static boolean updateChecked = false;
 
     public static void init() {
@@ -23,10 +26,10 @@ public class UpdateChecker {
 
                 new Thread(() -> {
                     MinecraftClient mc = MinecraftClient.getInstance();
-                    System.out.println("Checking for updates...");
+                    LOGGER.debug("Checking for updates...");
                     JsonObject latestRelease = APIHandler.getResponse("https://api.modrinth.com/updates/vQSRr7O4/forge_updates.json", false);
 
-                    System.out.println("Has promos?");
+                    LOGGER.debug("Has promos?");
                     if (latestRelease != null && latestRelease.has("promos")) {
                         JsonObject promos = latestRelease.getAsJsonObject("promos");
                         if (promos.has(RPCCraft.MCVERSION+"-recommended")) {

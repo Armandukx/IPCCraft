@@ -37,7 +37,7 @@ public class DiscordPresence {
 
     public void Update(String details, String state, String largeImageText, String largeImageKey, String smallImageKey, String smallImageText){
         if (client != null && client.getStatus() == PipeStatus.CONNECTED) {
-            clearPresence();
+            //clearPresence(); sometimes this works but also sometimes its ass
             client.sendRichPresence(builder.setDetails(details)
                     .setDetails(details)
                     .setState(state)
@@ -70,8 +70,8 @@ public class DiscordPresence {
                     String ServerAddress = networkHandler.getConnection().getAddress().toString().split("[/\\\\]")[0];
                     int playerCount = networkHandler.getPlayerList().size();
 
-                    String DetailsString = Configurations.useBrokenEnglish ? "Playin wit " : "Playing with ";
-                    DetailsString += playerCount + (Configurations.useBrokenEnglish ? " Minecrafters" : " Players");
+                    //noinspection ConstantValue
+                    String DetailsString = Configurations.useBrokenEnglish ? "Playin wit " : "Playing with " + playerCount + (Configurations.useBrokenEnglish ? " Minecrafters" : " Players");
                     String StateString = "Playing Multiplayer";
 
                     imageText = ServerAddress;

@@ -78,28 +78,24 @@ public class RichPresence
      * @return A JSONObject payload for updating a user's Rich Presence.
      */
     public JSONObject toJson() {
-        String button1Url = "null";
-        String button1Text = null;
-        String button2Url = "null";
-        String button2Text = null;
-        if (Configurations.button1Url != "null") {
-            button1Url = Configurations.button1Url;
-            button1Text = Configurations.button1Text;
-        }
-        if (Configurations.button2Url != "null"){
-            button2Url = Configurations.button2Url;
-            button2Text = Configurations.button2Text;
-        }
+        String button1Url;
+        String button1Text;
+        String button2Url;
+        String button2Text;
+        button1Url = Configurations.button1Url;
+        button1Text = Configurations.button1Text;
+        button2Url = Configurations.button2Url;
+        button2Text = Configurations.button2Text;
         if (Configurations.promoteRPCCraft) {
             button1Url = "https://modrinth.com/mod/rpccraft";
             button1Text = "Download RPCCraft";
             button2Url = "https://discord.com/invite/MGrNJqsqZt";
             button2Text = "Discord Server";
         }
+
         JSONObject jsonObject = new JSONObject()
                 .put("state", state)
                 .put("details", details)
-                //.put("buttons", sList)
                 .put("timestamps", new JSONObject()
                         .put("start", startTimestamp == null ? null : startTimestamp.toEpochSecond())
                         .put("end", endTimestamp == null ? null : endTimestamp.toEpochSecond()))
@@ -114,13 +110,13 @@ public class RichPresence
                 .put("instance", instance);
 
         JSONArray buttonsArray = new JSONArray();
-        if (!button1Url.equals("null")) {
+        if (button1Url.startsWith("https://")) {
             jsonObject.put("buttons", buttonsArray);
             buttonsArray.put(new JSONObject()
                     .put("label", button1Text)
                     .put("url", button1Url));
         }
-        if (!button2Url.equals("null")) {
+        if (button2Url.startsWith("https://")) {
             jsonObject.put("buttons", buttonsArray);
             buttonsArray.put(new JSONObject()
                     .put("label", button2Text)

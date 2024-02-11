@@ -10,7 +10,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import io.armandukx.rpccraft.discordipc.IPCClient;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class APIHandler {
+    private static final Logger LOGGER = LogManager.getLogger(IPCClient.class);
     public static JsonObject getResponse(String urlString, boolean hasError) {
         try {
             URL url = new URL(urlString);
@@ -34,10 +39,10 @@ public class APIHandler {
                 if (jsonElement.isJsonObject()) {
                     return jsonElement.getAsJsonObject();
                 } else {
-                    System.out.println("Invalid JSON response");
+                    LOGGER.debug("Invalid JSON response");
                 }
             } else {
-                System.out.println("HTTP request failed with response code: " + responseCode);
+                LOGGER.debug("HTTP request failed with response code: " + responseCode);
             }
 
             connection.disconnect();
@@ -47,7 +52,7 @@ public class APIHandler {
             if (hasError) {
                 e.printStackTrace();
             } else {
-                System.out.println("Error occurred while performing HTTP request: " + e.getMessage());
+                LOGGER.debug("Error occurred while performing HTTP request: " + e.getMessage());
             }
         }
         return null;

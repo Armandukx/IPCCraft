@@ -3,7 +3,6 @@ package io.armandukx.rpccraft;
 import io.armandukx.rpccraft.command.RPCCraftCommand;
 import io.armandukx.rpccraft.config.Config;
 import io.armandukx.rpccraft.config.Configurations;
-import io.armandukx.rpccraft.config.RPCConfig;
 import io.armandukx.rpccraft.utils.CheckWorld;
 import io.armandukx.rpccraft.utils.DiscordPresence;
 import io.armandukx.rpccraft.utils.UpdateChecker;
@@ -16,7 +15,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class RPCCraft implements ClientModInitializer {
-	public static final String VERSION = "1.0.3";
+	public static final String VERSION = "1.0.4";
 	public static final String MCVERSION = "1.16.5";
 	public static final String prefix =
 			Formatting.LIGHT_PURPLE + "[R" + Formatting.LIGHT_PURPLE + "P" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "r" + Formatting.LIGHT_PURPLE + "a" + Formatting.LIGHT_PURPLE + "f" + Formatting.LIGHT_PURPLE + "t] " + Formatting.RESET;

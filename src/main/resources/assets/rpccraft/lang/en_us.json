@@ -9,12 +9,12 @@
   "rpccraft.rpcconfig.promoteRPCCraft": "Promote RPCCraft on your Activity",
   "rpccraft.rpcconfig.promoteRPCCraft.tooltip": "Adds 2 buttons to promote this mod. (thanks btw)",
 
-  "rpccraft.rpcconfig.button1Url": "(null to disable) Button 1 URL",
+  "rpccraft.rpcconfig.button1Url": "(remove to disable) Button 1 URL",
   "rpccraft.rpcconfig.button1Url.tooltip": "Set the first Button's URL",
-  "rpccraft.rpcconfig.button1Text": "(null to disable) Button 1 Text",
+  "rpccraft.rpcconfig.button1Text": "Button 1 Text",
   "rpccraft.rpcconfig.button1Text.tooltip": "Set the first Button's TEXT",
-  "rpccraft.rpcconfig.button2Url": "(null to disable) Button 2 URL",
+  "rpccraft.rpcconfig.button2Url": "(remove to disable) Button 2 URL",
   "rpccraft.rpcconfig.button2Url.tooltip": "Set the first Button's URL",
-  "rpccraft.rpcconfig.button2Text": "(null to disable) Button 2 Text",
+  "rpccraft.rpcconfig.button2Text": "Button 2 Text",
   "rpccraft.rpcconfig.button2Text.tooltip": "Set the first Button's TEXT"
 }
