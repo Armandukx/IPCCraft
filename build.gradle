@@ -21,7 +21,6 @@ dependencies {
 	include(implementation 'org.json:json:20240205')
 
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
@@ -49,7 +48,7 @@ java {
 
 jar {
 	manifest {
-		attributes 'Main-Class': 'RPCCraftInstallerFrame'
+		attributes 'Main-Class': 'IPCCraftInstallerFrame'
 	}
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}

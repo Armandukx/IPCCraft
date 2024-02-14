@@ -1,14 +1,14 @@
 {
 	"schemaVersion": 1,
-	"id": "rpccraft",
+	"id": "ipccraft",
 	"version": "${version}",
-	"name": "rpccraft",
-	"description": "Advanced Discord RPC plugin for Minecraft",
+	"name": "IPCCraft",
+	"description": "Discord Rich Presence for Minecraft.",
 	"authors": [
 		"Armandukx"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/00000",
+		"homepage": "https://modrinth.com/mod/ipccraft",
 		"sources": "https://github.com/Armandukx/rpccraft"
 	},
 	"license": "CC-BY-NC-ND 4.0",
@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-          "io.armandukx.rpccraft.RPCCraft"
+			"io.armandukx.ipccraft.IPCCraft"
 		]
 	},
 	"depends": {

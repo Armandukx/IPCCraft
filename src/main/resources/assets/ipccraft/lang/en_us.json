@@ -1,0 +1,23 @@
+{
+  "ipccraft.ipcconfig.title": "IPCCraft Settings",
+  "ipccraft.ipcconfig.useClock": "Use Clock",
+  "ipccraft.ipcconfig.useClock.tooltip": "Use the Clock icon instead of your Minecraft Head and display the world time.",
+  "ipccraft.ipcconfig.sendConfigSettingsMessage": "Configuration Message",
+  "ipccraft.ipcconfig.sendConfigSettingsMessage.tooltip": "The message that gets sent in a multiplayer world.",
+  "ipccraft.ipcconfig.useBrokenEnglish": "Use Broken Eglish",
+  "ipccraft.ipcconfig.useBrokenEnglish.tooltip": "Self explanatory.",
+  "ipccraft.ipcconfig.promoteIPCCraft": "Promote IPCCraft on your Activity",
+  "ipccraft.ipcconfig.promoteIPCCraft.tooltip": "Adds 2 buttons to promote this mod. (thanks btw)",
+
+  "ipccraft.ipcconfig.button1Url": "(remove to disable) Button 1 URL",
+  "ipccraft.ipcconfig.button1Url.tooltip": "Set the first Button's URL",
+  "ipccraft.ipcconfig.button1Text": "Button 1 Text",
+  "ipccraft.ipcconfig.button1Text.tooltip": "Set the first Button's TEXT",
+  "ipccraft.ipcconfig.button2Url": "(remove to disable) Button 2 URL",
+  "ipccraft.ipcconfig.button2Url.tooltip": "Set the first Button's URL",
+  "ipccraft.ipcconfig.button2Text": "Button 2 Text",
+  "ipccraft.ipcconfig.button2Text.tooltip": "Set the first Button's TEXT",
+
+  "ipccraft.ipcconfig.useCustom": "Enable Custom Presence (TO MODIFY GO TO .minecraft/config/ipccraft/(MC VERSION).config)",
+  "ipccraft.ipcconfig.useCustom.tooltip": "Make it so that your Custom, Client ID and so on"
+}

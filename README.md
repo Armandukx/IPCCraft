@@ -1,8 +1,8 @@
-<h1 align="center">RPCCraft</h1>
+<h1 align="center">IPCCraft</h1>
 
 <div align="center">
-<a href="https://modrinth.com/mod/rpccraft/versions" target="_blank">
-        <img src="https://img.shields.io/modrinth/v/rpccraft?label=release&color=informational&logo=Modrinth" alt="release">
+<a href="https://modrinth.com/mod/ipccraft/versions" target="_blank">
+        <img src="https://img.shields.io/modrinth/v/ipccraft?label=release&color=informational&logo=Modrinth" alt="release">
     </a>
  <a href="https://github.com/Armandukx/RPCCraft/blob/main/COPYING" target="_blank">
         <img src="https://img.shields.io/badge/license-CC_BY_NC_ND_4.0-blue" alt="license">
@@ -13,12 +13,12 @@
          <a href="https://github.com/Armandukx/RPCCraft/releases" target="_blank">
         <img src="https://img.shields.io/github/downloads/Armandukx/RPCCraft/total?label=downloads&color=informational&logo=GitHub" alt="downloads">
     </a>
-   <a href="https://modrinth.com/mod/rpccraft/versions" target="_blank">
-        <img src="https://img.shields.io/modrinth/dt/rpccraft?label=downloads&color=informational&logo=Modrinth" alt="downloads">
+   <a href="https://modrinth.com/mod/ipccraft/versions" target="_blank">
+        <img src="https://img.shields.io/modrinth/dt/ipccraft?label=downloads&color=informational&logo=Modrinth" alt="downloads">
     </a>
 </div>
 
-<h4 align="center">Advanced Discord RPC plugin for Minecraft</h4>
+<h4 align="center">Discord Rich Presence for Minecraft. </h4>
 
 <h1 align="center">🚀Getting Started</h1>
 
@@ -27,7 +27,7 @@
 <li>Display what you are doing in Minecraft on your Discord Status.</li>
 <li>Checks for updates</li>
 
-More coming soon or you could suggest new feature(s) on our [Discord server](https://discord.gg/MGrNJqsqZt)!
+More coming soon, or you could suggest new feature(s) on our [Discord server](https://discord.gg/MGrNJqsqZt)!
 
 ## 🤝Support
 
@@ -35,9 +35,9 @@ For seamless installation and optimal utilization of the mod, don't hesitate to 
 #
 [![Discord Server](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_64h.png)](https://discord.gg/MGrNJqsqZt)
 
-## 🌍Where else is this avaliable?
-[![Get on Modrinth](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_64h.png)](https://modrinth.com/mod/rpccraft) [![Source on Github](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_64h.png)](https://github.com/Armandukx/RPCCraft)
+## 🌍Where else is this available?
+[![Get on Modrinth](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/modrinth_64h.png)](https://modrinth.com/mod/ipccraft) [![Source on Github](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_64h.png)](https://github.com/Armandukx/RPCCraft)
 
 # 📄License
 
-This project operates under the Attribution-NonCommercial-NoDerivatives 4.0 International, ensuring open-source accessibility. For further information, please refer to the [LICENSE](https://github.com/Armandukx/RPCCraft/blob/main/COPYING) file.
+This project operates under the Attribution-NonCommercial-ShareAlike 4.0 International. For further information, please refer to the [LICENSE](https://github.com/Armandukx/RPCCraft/blob/master/LICENSE) file.
