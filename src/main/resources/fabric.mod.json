@@ -9,18 +9,26 @@
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/ipccraft",
-		"sources": "https://github.com/Armandukx/rpccraft"
+		"sources": "https://github.com/Armandukx/rpccraft",
+		"issues": "https://github.com/Armandukx/rpccraft/issues"
 	},
-	"license": "CC-BY-NC-ND 4.0",
-	"logo": "logo.png",
-	"environment": "*",
+
+	"license": "CC-BY-NC-SA-4.0",
+	"icon": "assets/ipccraft/logo.png",
+
+	"environment": "client",
 	"entrypoints": {
 		"client": [
 			"io.armandukx.ipccraft.IPCCraft"
-		]
+		],
+		"modmenu": [ "io.armandukx.ipccraft.config.ModMenuIntegration" ]
 	},
 	"depends": {
-		"minecraft": "~1.16.5",
-		"java": "~16"
+		"minecraft": "~1.16",
+		"java": "~16",
+		"cloth-config2": ">=4.9.0"
+	},
+	"suggests": {
+		"modmenu": "*"
 	}
 }

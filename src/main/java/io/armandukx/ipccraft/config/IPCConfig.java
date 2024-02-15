@@ -1,221 +1,91 @@
 package io.armandukx.ipccraft.config;
 
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-
-import java.lang.annotation.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
+import io.armandukx.ipccraft.IPCCraft;
+import io.armandukx.ipccraft.discordipc.IPCClient;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class IPCConfig {
+    private static final Logger LOGGER = LogManager.getLogger(IPCClient.class);
 
-    private static final Pattern INTEGER_ONLY = Pattern.compile("(-?[0-9]*)");
-    private static final Pattern DECIMAL_ONLY = Pattern.compile("-?(\\d+\\.?\\d*|\\d*\\.?\\d+|\\.)");
+    private final File configFile;
 
-    private static final List<EntryInfo> entries = new ArrayList<>();
-
-    protected static class EntryInfo {
-        Field field;
-        Object widget;
-        int width;
-        Method dynamicTooltip;
-        Map.Entry<TextFieldWidget,Text> error;
-        Object defaultValue;
-        Object value;
-        String tempValue;
-        boolean inLimits = true;
+    public IPCConfig() {
+        File IpccraftFolder = new File("config/ipccraft");
+        if (!IpccraftFolder.exists()) {
+            boolean folderCreated = IpccraftFolder.mkdirs();
+            if (!folderCreated)
+                LOGGER.debug("[IPCCraft] Failed to create ipccraft folder, settings will not be saved!");
+        }
+        this.configFile = new File("config/ipccraft/" + IPCCraft.MCVERSION + ".config");
+        loadConfig();
     }
 
-    private static final String translationPrefix = "ipccraft.ipcconfig.";
-
-    public static void init(Class<?> config) {
-        for (Field field : config.getFields()) {
-            Entry e;
-            try { e = field.getAnnotation(Entry.class); }
-            catch (Exception ignored) { continue; }
-
-            Class<?> type = field.getType();
-            EntryInfo info = new EntryInfo();
-            info.width = e.width();
-            info.field = field;
-
-            if (type == int.class)         textField(info, Integer::parseInt, INTEGER_ONLY, e.min(), e.max(), true);
-            else if (type == double.class) textField(info, Double::parseDouble, DECIMAL_ONLY, e.min(), e.max(),false);
-            else if (type == String.class) textField(info, String::length, null, Math.min(e.min(),0), Math.max(e.max(),1),true);
-            else if (type == boolean.class) {
-                Function<Object,Text> func = value -> new LiteralText((Boolean) value ? "True" : "False");
-                info.widget = new AbstractMap.SimpleEntry<ButtonWidget.PressAction, Function<Object, Text>>(button -> {
-                    info.value = !(Boolean) info.value;
-                    button.setMessage(func.apply(info.value));
-                }, func);
+    private void loadConfig() {
+        try {
+            if (!this.configFile.exists()) {
+                saveConfig();
+                return;
             }
-            else if (type.isEnum()) {
-                List<?> values = Arrays.asList(field.getType().getEnumConstants());
-                Function<Object,Text> func = value -> new TranslatableText(translationPrefix + "enum." + type.getSimpleName() + "." + info.value.toString());
-                info.widget = new AbstractMap.SimpleEntry<ButtonWidget.PressAction, Function<Object,Text>>( button -> {
-                    int index = values.indexOf(info.value) + 1;
-                    info.value = values.get(index >= values.size()? 0 : index);
-                    button.setMessage(func.apply(info.value));
-                }, func);
-            }
-            else
-                continue;
-
-            entries.add(info);
-
-            try { info.defaultValue = field.get(null); }
-            catch (IllegalAccessException ignored) {}
-
-            try {
-                info.dynamicTooltip = config.getMethod(e.dynamicTooltip());
-                info.dynamicTooltip.setAccessible(true);
-            } catch (Exception ignored) {}
-
-        }
-
-        for (EntryInfo info : entries) {
-            try {
-                info.value = info.field.get(null);
-                info.tempValue = info.value.toString();
-            }
-            catch (IllegalAccessException ignored) {}
-        }
-
-    }
-
-    private static void textField(EntryInfo info, Function<String,Number> f, Pattern pattern, double min, double max, boolean cast) {
-        boolean isNumber = pattern != null;
-        info.widget = (BiFunction<TextFieldWidget, ButtonWidget, Predicate<String>>) (t, b) -> s -> {
-            s = s.trim();
-            if (!(s.isEmpty() || !isNumber || pattern.matcher(s).matches()))
-                return false;
-
-            Number value = 0;
-            boolean inLimits = false;
-            System.out.println(((isNumber ^ s.isEmpty())));
-            System.out.println(!s.equals("-") && !s.equals("."));
-            info.error = null;
-            if (!(isNumber && s.isEmpty()) && !s.equals("-") && !s.equals(".")) {
-                value = f.apply(s);
-                inLimits = value.doubleValue() >= min && value.doubleValue() <= max;
-                info.error = inLimits? null : new AbstractMap.SimpleEntry<>(t, new LiteralText(value.doubleValue() < min ?
-                        "§cMinimum " + (isNumber? "value" : "length") + (cast? " is " + (int)min : " is " + min) :
-                        "§cMaximum " + (isNumber? "value" : "length") + (cast? " is " + (int)max : " is " + max)));
-            }
-
-            info.tempValue = s;
-            t.setEditableColor(inLimits? 0xFFFFFFFF : 0xFFFF7777);
-            info.inLimits = inLimits;
-            b.active = entries.stream().allMatch(e -> e.inLimits);
-
-            if (inLimits)
-                info.value = isNumber? value : s;
-
-            return true;
-        };
-    }
-
-    public Screen getScreen(Screen parent) {
-        return new TinyConfigScreen(parent);
-    }
-
-    private static class TinyConfigScreen extends Screen {
-        protected TinyConfigScreen(Screen parent) {
-            super(new TranslatableText(IPCConfig.translationPrefix + "title"));
-            this.parent = parent;
-        }
-        private final Screen parent;
-
-        @Override
-        protected void init() {
-            super.init();
-
-            ButtonWidget done = this.addButton(new ButtonWidget(this.width/2 - 100,this.height - 28,200,20,
-                    new TranslatableText("gui.done"), (button) -> {
-                for (EntryInfo info : entries)
-                    try { info.field.set(null, info.value); }
-                    catch (IllegalAccessException ignore) {}
-                client.openScreen(parent);
-            }));
-
-            int y = 45;
-            for (EntryInfo info : entries) {
-                if (info.widget instanceof Map.Entry) {
-                    Map.Entry<ButtonWidget.PressAction,Function<Object,Text>> widget = (Map.Entry<ButtonWidget.PressAction, Function<Object, Text>>) info.widget;
-                    addButton(new ButtonWidget(width-85,y,info.width,20, widget.getValue().apply(info.value), widget.getKey()));
-                }
-                else {
-                    TextFieldWidget widget = addButton(new TextFieldWidget(textRenderer, width-85, y, info.width, 20, null));
-                    widget.setText(info.tempValue);
-
-                    Predicate<String> processor = ((BiFunction<TextFieldWidget, ButtonWidget, Predicate<String>>) info.widget).apply(widget,done);
-                    widget.setTextPredicate(processor);
-                    processor.test(info.tempValue);
-
-                    children.add(widget);
-                }
-                y += 30;
-            }
-
-        }
-
-        @Override
-        public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-            this.renderBackground(matrices);
-
-            if (mouseY >= 40 && mouseY <= 39 + entries.size()*30) {
-                int low = ((mouseY-10)/30)*30 + 10 + 2;
-                fill(matrices, 0, low, width, low+30-4, 0x33FFFFFF);
-            }
-
-            super.render(matrices, mouseX, mouseY, delta);
-            drawCenteredText(matrices, textRenderer, title, width/2, 15, 0xFFFFFF);
-
-            int y = 40;
-            for (EntryInfo info : entries) {
-                drawTextWithShadow(matrices, textRenderer, new TranslatableText(translationPrefix + info.field.getName()), 12, y + 10, 0xFFFFFF);
-
-                if (info.error != null && info.error.getKey().isMouseOver(mouseX,mouseY))
-                    renderTooltip(matrices, info.error.getValue(), mouseX, mouseY);
-                else if (mouseY >= y && mouseY < (y + 30)) {
-                    if (info.dynamicTooltip != null) {
-                        try {
-                            renderTooltip(matrices, (List<Text>) info.dynamicTooltip.invoke(null, entries), mouseX, mouseY);
-                            y += 30;
-                            continue;
-                        } catch (Exception e) { e.printStackTrace(); }
-                    }
-                    String key = translationPrefix + info.field.getName() + ".tooltip";
-                    if (I18n.hasTranslation(key)) {
-                        List<Text> list = new ArrayList<>();
-                        for (String str : I18n.translate(key).split("\n"))
-                            list.add(new LiteralText(str));
-                        renderTooltip(matrices, list, mouseX, mouseY);
+            BufferedReader reader = new BufferedReader(new FileReader(this.configFile));
+            String line = reader.readLine();
+            while (line != null) {
+                String[] tokens = line.split("=");
+                if (tokens.length == 2) {
+                    String key = tokens[0];
+                    String value = tokens[1];
+                    switch (key) {
+                        case "useClock" -> CConfig.useClock = Boolean.parseBoolean(value);
+                        case "sendConfigSettingsMessage" -> CConfig.sendConfigSettingsMessage = Boolean.parseBoolean(value);
+                        case "useBrokenEnglish" -> CConfig.useBrokenEnglish = Boolean.parseBoolean(value);
+                        case "promoteIPCCraft" -> CConfig.promoteIPCCraft = Boolean.parseBoolean(value);
+                        case "button1Url" -> CConfig.button1Url = value;
+                        case "button1Text" -> CConfig.button1Text = value;
+                        case "button2Url" -> CConfig.button2Url = value;
+                        case "button2Text" -> CConfig.button2Text = value;
+                        case "useCustom" -> CConfig.LayoutConfig.useCustom = Boolean.parseBoolean(value);
+                        case "customClientId" -> CConfig.LayoutConfig.clientId = Long.parseLong(value);
+                        case "customDetailsString" -> CConfig.LayoutConfig.detailsString = value;
+                        case "customStateString" -> CConfig.LayoutConfig.stateString = value;
+                        case "customBigImageName" -> CConfig.LayoutConfig.bigImageName = value;
+                        case "customBigImageText" -> CConfig.LayoutConfig.bigImageText = value;
                     }
                 }
-                y += 30;
+                line = reader.readLine();
             }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.FIELD)
-    public @interface Entry {
-        String dynamicTooltip() default "";
-        int width() default 75;
-        double min() default Double.MIN_NORMAL;
-        double max() default Double.MAX_VALUE;
+    public void saveConfig() {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(this.configFile));
+            writer.write("useClock=" + CConfig.useClock + "\n");
+            writer.write("sendConfigSettingsMessage=" + CConfig.sendConfigSettingsMessage + "\n");
+            writer.write("useBrokenEnglish=" + CConfig.useBrokenEnglish + "\n");
+            writer.write("promoteIPCCraft=" + CConfig.promoteIPCCraft + "\n");
+            writer.write("button1Url=" + CConfig.button1Url + "\n");
+            writer.write("button1Text=" + CConfig.button1Text + "\n");
+            writer.write("button2Url=" + CConfig.button2Url + "\n");
+            writer.write("button2Text=" + CConfig.button2Text + "\n");
+            writer.write("useCustom=" + CConfig.LayoutConfig.useCustom + "\n");
+            writer.write("-------CUSTOM PRESENCE-------\n");
+            writer.write("customClientId=" + CConfig.LayoutConfig.clientId + "\n");
+            writer.write("customDetailsString=" + CConfig.LayoutConfig.detailsString + "\n");
+            writer.write("customStateString=" + CConfig.LayoutConfig.stateString + "\n");
+            writer.write("customBigImageName=" + CConfig.LayoutConfig.bigImageName + "\n");
+            writer.write("customBigImageText=" + CConfig.LayoutConfig.bigImageText + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
 }

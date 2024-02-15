@@ -1,15 +1,15 @@
 package io.armandukx.ipccraft;
 
-import io.armandukx.ipccraft.commands.IPCCraftCommand;
-import io.armandukx.ipccraft.config.Config;
-import io.armandukx.ipccraft.config.Configurations;
+import io.armandukx.ipccraft.config.CConfig;
+import io.armandukx.ipccraft.config.IPCConfig;
 import io.armandukx.ipccraft.utils.CheckWorld;
 import io.armandukx.ipccraft.utils.DiscordPresence;
 import io.armandukx.ipccraft.utils.UpdateChecker;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -21,33 +21,34 @@ public class IPCCraft implements ClientModInitializer {
 			Formatting.LIGHT_PURPLE + "[I" + Formatting.LIGHT_PURPLE + "P" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "r" + Formatting.LIGHT_PURPLE + "a" + Formatting.LIGHT_PURPLE + "f" + Formatting.LIGHT_PURPLE + "t] " + Formatting.RESET;
 	String currentScreenString = "NULL";
 	MinecraftClient client = MinecraftClient.getInstance();
-	private static Config config;
+	private static IPCConfig ipcConfig;
 	private static DiscordPresence discordPresence;
+	public static CConfig config;
 	@Override
 	public void onInitializeClient() {
-		// Load Screen
-		Configurations.init(Configurations.class);
+		// Config
+		AutoConfig.register(CConfig.class, GsonConfigSerializer::new);
+		config = AutoConfig.getConfigHolder(CConfig.class).getConfig();
 
 		// Load Essential Stuff
-		config = new Config();
+		ipcConfig = new IPCConfig();
 		discordPresence = new DiscordPresence();
 		UpdateChecker.init();
 
-		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> IPCCraftCommand.register(dispatcher));
 		ChangePresence("LMC", client.world);
 
 		ClientTickEvents.START_CLIENT_TICK.register(client -> ChangePresence("Playing Singleplayer", client.world));
 		ClientLifecycleEvents.CLIENT_STOPPING.register(server -> {
-			System.out.println("Saving Config");
-			config.saveConfig();
+			System.out.println("Saving IPCConfig");
+			ipcConfig.saveConfig();
 			System.out.println("Stopping Discord IPC");
 			discordPresence.clearPresence();
 		});
 	}
 
 	public void ChangePresence(String StateString, World world){
-		if (Configurations.useCustom){
-			discordPresence.Update(Config.detailsString, Config.stateString, Config.bigImageText, Config.bigImageName, null, null);
+		if (CConfig.LayoutConfig.useCustom){
+			discordPresence.Update(CConfig.LayoutConfig.detailsString, CConfig.LayoutConfig.stateString, CConfig.LayoutConfig.bigImageText, CConfig.LayoutConfig.bigImageName, null, null);
 			return;
 		}
 		String imageText;

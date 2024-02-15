@@ -1,8 +1,7 @@
 package io.armandukx.ipccraft.utils;
 
 import io.armandukx.ipccraft.IPCCraft;
-import io.armandukx.ipccraft.config.Config;
-import io.armandukx.ipccraft.config.Configurations;
+import io.armandukx.ipccraft.config.CConfig;
 import io.armandukx.ipccraft.discordipc.IPCClient;
 import io.armandukx.ipccraft.discordipc.IPCListener;
 import io.armandukx.ipccraft.discordipc.entities.RichPresence;
@@ -27,8 +26,8 @@ public class DiscordPresence {
     Screen currentScreen = instance.currentScreen;
     private boolean sentMultiConfigMessage = false;
     public DiscordPresence(){
-        if (Configurations.useCustom) {
-            client = new IPCClient(Config.clientId);
+        if (CConfig.LayoutConfig.useCustom) {
+            client = new IPCClient(CConfig.LayoutConfig.clientId);
         }
         try {
             client.setListener(new Listener());
@@ -60,7 +59,7 @@ public class DiscordPresence {
 
     public String[] getWorldInfo(World world, String imageText) {
         if (CheckWorld.isSinglePlayer(world)) {
-            String DetailsString = (Configurations.useBrokenEnglish ? "Currntli" : "Currently") + " in The " + imageText;
+            String DetailsString = (CConfig.useBrokenEnglish ? "Currntli" : "Currently") + " in The " + imageText;
             String StateString = null;
             if (instance.player != null) {
                 StateString = "Playing Singleplayer | In the " + world.getBiome(instance.player.getBlockPos()).getCategory().name().toLowerCase() + " biome";
@@ -75,12 +74,12 @@ public class DiscordPresence {
                     int playerCount = networkHandler.getPlayerList().size();
 
                     //noinspection ConstantValue
-                    String DetailsString = Configurations.useBrokenEnglish ? "Playin wit " : "Playing with " + playerCount + (Configurations.useBrokenEnglish ? " Minecrafters" : " Players");
+                    String DetailsString = CConfig.useBrokenEnglish ? "Playin wit " : "Playing with " + playerCount + (CConfig.useBrokenEnglish ? " Minecrafters" : " Players");
                     String StateString = "Playing Multiplayer";
 
                     imageText = ServerAddress;
                     String imageKey = "https://eu.mc-api.net/v3/server/favicon/" + ServerAddress;
-                    if (Configurations.sendConfigSettingsMessage && !sentMultiConfigMessage) {
+                    if (CConfig.sendConfigSettingsMessage && !sentMultiConfigMessage) {
                         MinecraftClient.getInstance().player.sendMessage(Text.Serializer.fromJson(Text.Serializer.toJson(new LiteralText(IPCCraft.prefix + Formatting.RED + "To configure settings you must be in a singleplayer world!"))), false);
                         sentMultiConfigMessage = true;
                     }
@@ -95,7 +94,7 @@ public class DiscordPresence {
         String smallImageKey;
         String smallImageText;
 
-        if (Configurations.useClock && world != null) {
+        if (CConfig.useClock && world != null) {
             smallImageKey = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/3e/Clock_JE3_BE3.gif/revision/latest?cb=20201125194053";
             smallImageText = "World time: " + TimeConverter.convert(world.getTimeOfDay());
         } else {
@@ -117,9 +116,9 @@ public class DiscordPresence {
             imageText = "Main Menu";
             imageKey = "main_menu";
             if (currentScreen instanceof ConnectScreen || currentScreen instanceof LevelLoadingScreen) {
-                stateString = Configurations.useBrokenEnglish ? "Connecting to a Wurld" : "Connecting to a World";
+                stateString = CConfig.useBrokenEnglish ? "Connecting to a Wurld" : "Connecting to a World";
             } else {
-                stateString = Configurations.useBrokenEnglish
+                stateString = CConfig.useBrokenEnglish
                         ? (stateString.equals("LMC") ? "Launchin Minecraft" : instance.getSession().getUsername() + " iz Chillin")
                         : (stateString.equals("LMC") ? "Launching Minecraft" : instance.getSession().getUsername() + " is Chilling");
             }

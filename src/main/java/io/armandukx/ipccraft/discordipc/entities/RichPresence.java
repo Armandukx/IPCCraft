@@ -17,7 +17,8 @@ package io.armandukx.ipccraft.discordipc.entities;
 
 import java.time.OffsetDateTime;
 
-import io.armandukx.ipccraft.config.Configurations;
+import io.armandukx.ipccraft.config.CConfig;
+import io.armandukx.ipccraft.config.IPCConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -82,11 +83,11 @@ public class RichPresence
         String button1Text;
         String button2Url;
         String button2Text;
-        button1Url = Configurations.button1Url;
-        button1Text = Configurations.button1Text;
-        button2Url = Configurations.button2Url;
-        button2Text = Configurations.button2Text;
-        if (Configurations.promoteIPCCraft) {
+        button1Url = CConfig.button1Url;
+        button1Text = CConfig.button1Text;
+        button2Url = CConfig.button2Url;
+        button2Text = CConfig.button2Text;
+        if (CConfig.promoteIPCCraft) {
             button1Url = "https://modrinth.com/mod/ipccraft";
             button1Text = "Download IPCCraft";
             button2Url = "https://discord.com/invite/MGrNJqsqZt";
