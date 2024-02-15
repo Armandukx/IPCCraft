@@ -4,7 +4,7 @@
 <a href="https://modrinth.com/mod/ipccraft/versions" target="_blank">
         <img src="https://img.shields.io/modrinth/v/ipccraft?label=release&color=informational&logo=Modrinth" alt="release">
     </a>
- <a href="https://github.com/Armandukx/RPCCraft/blob/main/COPYING" target="_blank">
+ <a href="https://github.com/Armandukx/RPCCraft/blob/master/LICENSE" target="_blank">
         <img src="https://img.shields.io/badge/license-CC_BY_NC_ND_4.0-blue" alt="license">
     </a>
     <a href="https://discord.gg/MGrNJqsqZt" target="_blank">
