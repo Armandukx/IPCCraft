@@ -5,7 +5,7 @@
         <img src="https://img.shields.io/modrinth/v/ipccraft?label=release&color=informational&logo=Modrinth" alt="release">
     </a>
  <a href="https://github.com/Armandukx/RPCCraft/blob/master/LICENSE" target="_blank">
-        <img src="https://img.shields.io/badge/license-CC_BY_NC_ND_4.0-blue" alt="license">
+        <img src="https://img.shields.io/badge/license-CC_BY_NC_SA_4.0-blue" alt="license">
     </a>
     <a href="https://discord.gg/MGrNJqsqZt" target="_blank">
         <img src="https://img.shields.io/discord/1094419852040622150?label=discord&color=informational&logo=Discord&logoColor=FFFFFF" alt="discord">
