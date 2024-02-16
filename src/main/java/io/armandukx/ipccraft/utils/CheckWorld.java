@@ -25,30 +25,4 @@ public class CheckWorld {
             return "End";
         }
     }
-
-    public static String biome(World world){
-        if (world == null) return "NULL";
-        String biome = world.getBiome(client.player.getBlockPos()).getCategory().name().toLowerCase();
-
-        if (biome.equals("plains") || biome.equals("forest")){
-            return "forest";
-        } else if (biome.contains("ocean")) {
-            return "ocean";
-        } else if (biome.contains("savanna")) {
-            return "savanna";
-        }else if (biome.contains("dessert")) {
-            return "dessert";
-        }else if (biome.contains("river")) {
-            return "river";
-        }else if (biome.contains("taiga")) {
-            return "taiga";
-        }else if (biome.contains("beach")) {
-            return "beach";
-        }else if (biome.contains("mushroom")) {
-            return "mushroom";
-        }else if (biome.contains("swamp")) {
-            return "swamp";
-        }
-        return worldDimension(world).toLowerCase();
-    }
 }

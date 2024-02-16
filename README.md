@@ -25,7 +25,6 @@
 ### The installation guide is [not here](https://github.com/Armandukx/IPCCraft/wiki)
 <h1 align="center">📋Feature List</h1>
 <li>Display what you are doing in Minecraft on your Discord Status.</li>
-<li>Display what biome you're in</li>
 <li>Display the current time</li>
 <li>Display how many players are in your server if you are in multiplayer</li>
 <li>Changes the picture based on the biome you are in</li>

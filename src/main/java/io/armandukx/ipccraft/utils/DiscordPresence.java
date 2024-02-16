@@ -2,7 +2,6 @@ package io.armandukx.ipccraft.utils;
 
 import io.armandukx.ipccraft.IPCCraft;
 import io.armandukx.ipccraft.config.ClothConfig;
-import io.armandukx.ipccraft.config.IPCConfig;
 import io.armandukx.ipccraft.discordipc.IPCClient;
 import io.armandukx.ipccraft.discordipc.IPCListener;
 import io.armandukx.ipccraft.discordipc.entities.RichPresence;
@@ -63,7 +62,7 @@ public class DiscordPresence {
             String DetailsString = (ClothConfig.useBrokenEnglish ? "Currntli" : "Currently") + " in The " + imageText;
             String StateString = null;
             if (instance.player != null) {
-                StateString = "Playing Singleplayer | In the " + world.getBiome(instance.player.getBlockPos()).getCategory().name().toLowerCase() + " biome";
+                StateString = "Playing Singleplayer";
             }
             return new String[]{DetailsString, StateString};
         }
@@ -110,12 +109,9 @@ public class DiscordPresence {
         String imageText;
         String imageKey;
 
-        if (world != null) {
-            imageText = CheckWorld.worldDimension(world);
-            imageKey = CheckWorld.biome(world);
-        } else {
-            imageText = "Main Menu";
-            imageKey = "main_menu";
+        imageText = "Main Menu";
+        imageKey = "main_menu";
+        if (world == null) {
             if (currentScreen instanceof ConnectScreen || currentScreen instanceof LevelLoadingScreen) {
                 stateString = ClothConfig.useBrokenEnglish ? "Connecting to a Wurld" : "Connecting to a World";
             } else {
