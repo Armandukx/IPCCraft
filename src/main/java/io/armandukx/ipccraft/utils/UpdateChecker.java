@@ -11,9 +11,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public class UpdateChecker {
+    private static final MinecraftClient mc = MinecraftClient.getInstance();
     public static void check() {
-        System.out.println("CHECKING");
-        MinecraftClient mc = MinecraftClient.getInstance();
         if (mc.world != null) {
             IPCCraft._STOPCHECKING = true;
             new Thread(() -> {
