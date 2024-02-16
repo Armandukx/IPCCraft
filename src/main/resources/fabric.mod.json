@@ -9,8 +9,8 @@
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/ipccraft",
-		"sources": "https://github.com/Armandukx/rpccraft",
-		"issues": "https://github.com/Armandukx/rpccraft/issues"
+		"sources": "https://github.com/Armandukx/ipccraft",
+		"issues": "https://github.com/Armandukx/ipccraft/issues"
 	},
 
 	"license": "CC-BY-NC-SA-4.0",
