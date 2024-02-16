@@ -4,10 +4,11 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Category;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.Tooltip;
+import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.PrefixText;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.TransitiveObject;
 
 @Config(name = "ipccraft")
-public class CConfig implements ConfigData {
+public class ClothConfig implements ConfigData {
     public static boolean useClock = false;
     public static boolean sendConfigSettingsMessage = true;
     public static boolean useBrokenEnglish = false;
@@ -18,13 +19,15 @@ public class CConfig implements ConfigData {
     public static String button2Text = "";
     @Category("custom")
     @TransitiveObject
-    public LayoutConfig customPresence;
-    public static class LayoutConfig {
-        @Tooltip public static boolean useCustom = false;
+    public static CustomPresence customPresence = new CustomPresence();
+    public static class CustomPresence {
+        @PrefixText @Tooltip public static boolean useCustom = false;
         @Tooltip public static long clientId;
         public static String detailsString;
         public static String stateString;
         public static String bigImageName;
         public static String bigImageText;
+        public static String smallImageName;
+        public static String smallImageText;
     }
 }

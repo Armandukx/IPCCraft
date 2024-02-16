@@ -8,18 +8,17 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class IPCConfig {
-    private static final Logger LOGGER = LogManager.getLogger(IPCClient.class);
-
+public class IPCConfig{
     private final File configFile;
-
     public IPCConfig() {
         File IpccraftFolder = new File("config/ipccraft");
         if (!IpccraftFolder.exists()) {
             boolean folderCreated = IpccraftFolder.mkdirs();
+            Logger LOGGER = LogManager.getLogger(IPCClient.class);
             if (!folderCreated)
                 LOGGER.debug("[IPCCraft] Failed to create ipccraft folder, settings will not be saved!");
         }
@@ -29,11 +28,7 @@ public class IPCConfig {
 
     private void loadConfig() {
         try {
-            if (!this.configFile.exists()) {
-                saveConfig();
-                return;
-            }
-            BufferedReader reader = new BufferedReader(new FileReader(this.configFile));
+            BufferedReader reader = new BufferedReader(new FileReader(configFile));
             String line = reader.readLine();
             while (line != null) {
                 String[] tokens = line.split("=");
@@ -41,20 +36,22 @@ public class IPCConfig {
                     String key = tokens[0];
                     String value = tokens[1];
                     switch (key) {
-                        case "useClock" -> CConfig.useClock = Boolean.parseBoolean(value);
-                        case "sendConfigSettingsMessage" -> CConfig.sendConfigSettingsMessage = Boolean.parseBoolean(value);
-                        case "useBrokenEnglish" -> CConfig.useBrokenEnglish = Boolean.parseBoolean(value);
-                        case "promoteIPCCraft" -> CConfig.promoteIPCCraft = Boolean.parseBoolean(value);
-                        case "button1Url" -> CConfig.button1Url = value;
-                        case "button1Text" -> CConfig.button1Text = value;
-                        case "button2Url" -> CConfig.button2Url = value;
-                        case "button2Text" -> CConfig.button2Text = value;
-                        case "useCustom" -> CConfig.LayoutConfig.useCustom = Boolean.parseBoolean(value);
-                        case "customClientId" -> CConfig.LayoutConfig.clientId = Long.parseLong(value);
-                        case "customDetailsString" -> CConfig.LayoutConfig.detailsString = value;
-                        case "customStateString" -> CConfig.LayoutConfig.stateString = value;
-                        case "customBigImageName" -> CConfig.LayoutConfig.bigImageName = value;
-                        case "customBigImageText" -> CConfig.LayoutConfig.bigImageText = value;
+                        case "useClock" -> ClothConfig.useClock = Boolean.parseBoolean(value);
+                        case "sendConfigSettingsMessage" -> ClothConfig.sendConfigSettingsMessage = Boolean.parseBoolean(value);
+                        case "useBrokenEnglish" -> ClothConfig.useBrokenEnglish = Boolean.parseBoolean(value);
+                        case "promoteIPCCraft" -> ClothConfig.promoteIPCCraft = Boolean.parseBoolean(value);
+                        case "button1Url" -> ClothConfig.button1Url = value;
+                        case "button1Text" -> ClothConfig.button1Text = value;
+                        case "button2Url" -> ClothConfig.button2Url = value;
+                        case "button2Text" -> ClothConfig.button2Text = value;
+                        case "useCustom" -> ClothConfig.CustomPresence.useCustom = Boolean.parseBoolean(value);
+                        case "customClientId" -> ClothConfig.CustomPresence.clientId = Long.parseLong(value);
+                        case "customDetailsString" -> ClothConfig.CustomPresence.detailsString = value;
+                        case "customStateString" -> ClothConfig.CustomPresence.stateString = value;
+                        case "customBigImageName" -> ClothConfig.CustomPresence.bigImageName = value;
+                        case "customBigImageText" -> ClothConfig.CustomPresence.bigImageText = value;
+                        case "customSmallImageName" -> ClothConfig.CustomPresence.smallImageName = value;
+                        case "customSmallImageText" -> ClothConfig.CustomPresence.smallImageText = value;
                     }
                 }
                 line = reader.readLine();
@@ -68,21 +65,22 @@ public class IPCConfig {
     public void saveConfig() {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(this.configFile));
-            writer.write("useClock=" + CConfig.useClock + "\n");
-            writer.write("sendConfigSettingsMessage=" + CConfig.sendConfigSettingsMessage + "\n");
-            writer.write("useBrokenEnglish=" + CConfig.useBrokenEnglish + "\n");
-            writer.write("promoteIPCCraft=" + CConfig.promoteIPCCraft + "\n");
-            writer.write("button1Url=" + CConfig.button1Url + "\n");
-            writer.write("button1Text=" + CConfig.button1Text + "\n");
-            writer.write("button2Url=" + CConfig.button2Url + "\n");
-            writer.write("button2Text=" + CConfig.button2Text + "\n");
-            writer.write("useCustom=" + CConfig.LayoutConfig.useCustom + "\n");
-            writer.write("-------CUSTOM PRESENCE-------\n");
-            writer.write("customClientId=" + CConfig.LayoutConfig.clientId + "\n");
-            writer.write("customDetailsString=" + CConfig.LayoutConfig.detailsString + "\n");
-            writer.write("customStateString=" + CConfig.LayoutConfig.stateString + "\n");
-            writer.write("customBigImageName=" + CConfig.LayoutConfig.bigImageName + "\n");
-            writer.write("customBigImageText=" + CConfig.LayoutConfig.bigImageText + "\n");
+            writer.write("useClock=" + ClothConfig.useClock + "\n");
+            writer.write("sendConfigSettingsMessage=" + ClothConfig.sendConfigSettingsMessage + "\n");
+            writer.write("useBrokenEnglish=" + ClothConfig.useBrokenEnglish + "\n");
+            writer.write("promoteIPCCraft=" + ClothConfig.promoteIPCCraft + "\n");
+            writer.write("button1Url=" + ClothConfig.button1Url + "\n");
+            writer.write("button1Text=" + ClothConfig.button1Text + "\n");
+            writer.write("button2Url=" + ClothConfig.button2Url + "\n");
+            writer.write("button2Text=" + ClothConfig.button2Text + "\n");
+            writer.write("useCustom=" + ClothConfig.CustomPresence.useCustom + "\n");
+            writer.write("customClientId=" + ClothConfig.CustomPresence.clientId + "\n");
+            writer.write("customDetailsString=" + ClothConfig.CustomPresence.detailsString + "\n");
+            writer.write("customStateString=" + ClothConfig.CustomPresence.stateString + "\n");
+            writer.write("customBigImageName=" + ClothConfig.CustomPresence.bigImageName + "\n");
+            writer.write("customBigImageText=" + ClothConfig.CustomPresence.bigImageText + "\n");
+            writer.write("customSmallImageName=" + ClothConfig.CustomPresence.smallImageName + "\n");
+            writer.write("customSmallImageText=" + ClothConfig.CustomPresence.smallImageText + "\n");
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

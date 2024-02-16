@@ -25,7 +25,13 @@
 ### The installation guide is [not here](https://github.com/Armandukx/RPCCraft/wiki)
 <h1 align="center">📋Feature List</h1>
 <li>Display what you are doing in Minecraft on your Discord Status.</li>
+<li>Display what bime you're in</li>
+<li>Display the current time</li>
+<li>Display how many players are in your server if you are in multiplayer</li>
+<li>Changes the picture based on the biome you are in</li>
+<li>Changes the picture based on the multiplayer server you are in</li>
 <li>Checks for updates</li>
+<li>And much more!</li>
 
 More coming soon, or you could suggest new feature(s) on our [Discord server](https://discord.gg/MGrNJqsqZt)!
 

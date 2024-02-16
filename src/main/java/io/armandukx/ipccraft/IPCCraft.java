@@ -1,6 +1,6 @@
 package io.armandukx.ipccraft;
 
-import io.armandukx.ipccraft.config.CConfig;
+import io.armandukx.ipccraft.config.ClothConfig;
 import io.armandukx.ipccraft.config.IPCConfig;
 import io.armandukx.ipccraft.utils.CheckWorld;
 import io.armandukx.ipccraft.utils.DiscordPresence;
@@ -10,28 +10,26 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.MinecraftVersion;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class IPCCraft implements ClientModInitializer {
-	public static final String VERSION = "1.0.5";
-	public static final String MCVERSION = "1.16.5";
-	public static final String prefix =
-			Formatting.LIGHT_PURPLE + "[I" + Formatting.LIGHT_PURPLE + "P" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "r" + Formatting.LIGHT_PURPLE + "a" + Formatting.LIGHT_PURPLE + "f" + Formatting.LIGHT_PURPLE + "t] " + Formatting.RESET;
+	public static final String VERSION = "1.0.6";
+	public static final String MCVERSION = MinecraftVersion.create().getName();
+	public static final String prefix = Formatting.LIGHT_PURPLE + "[I" + Formatting.LIGHT_PURPLE + "P" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "r" + Formatting.LIGHT_PURPLE + "a" + Formatting.LIGHT_PURPLE + "f" + Formatting.LIGHT_PURPLE + "t] " + Formatting.RESET;
 	String currentScreenString = "NULL";
 	MinecraftClient client = MinecraftClient.getInstance();
-	private static IPCConfig ipcConfig;
+	private static IPCConfig config;
 	private static DiscordPresence discordPresence;
-	public static CConfig config;
 	@Override
 	public void onInitializeClient() {
 		// Config
-		AutoConfig.register(CConfig.class, GsonConfigSerializer::new);
-		config = AutoConfig.getConfigHolder(CConfig.class).getConfig();
+		config = new IPCConfig();
+		AutoConfig.register(ClothConfig.class, GsonConfigSerializer::new);
+		AutoConfig.getConfigHolder(ClothConfig.class).getConfig();
 
-		// Load Essential Stuff
-		ipcConfig = new IPCConfig();
 		discordPresence = new DiscordPresence();
 		UpdateChecker.init();
 
@@ -40,15 +38,15 @@ public class IPCCraft implements ClientModInitializer {
 		ClientTickEvents.START_CLIENT_TICK.register(client -> ChangePresence("Playing Singleplayer", client.world));
 		ClientLifecycleEvents.CLIENT_STOPPING.register(server -> {
 			System.out.println("Saving IPCConfig");
-			ipcConfig.saveConfig();
+			config.saveConfig();
 			System.out.println("Stopping Discord IPC");
 			discordPresence.clearPresence();
 		});
 	}
 
 	public void ChangePresence(String StateString, World world){
-		if (CConfig.LayoutConfig.useCustom){
-			discordPresence.Update(CConfig.LayoutConfig.detailsString, CConfig.LayoutConfig.stateString, CConfig.LayoutConfig.bigImageText, CConfig.LayoutConfig.bigImageName, null, null);
+		if (ClothConfig.CustomPresence.useCustom){
+			discordPresence.Update(ClothConfig.CustomPresence.detailsString, ClothConfig.CustomPresence.stateString, ClothConfig.CustomPresence.bigImageText, ClothConfig.CustomPresence.bigImageName, ClothConfig.CustomPresence.smallImageName, ClothConfig.CustomPresence.smallImageText);
 			return;
 		}
 		String imageText;

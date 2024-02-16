@@ -17,11 +17,14 @@
 
   "text.autoconfig.ipccraft.category.custom": "Custom Presence",
   "text.autoconfig.ipccraft.option.customPresence.useCustom": "Custom Presence",
+  "text.autoconfig.ipccraft.option.customPresence.useCustom.@PrefixText": "CUSTOM PRESENCE ONLY WORKS ON MINECRAFT LAUNCH, IT CANNOT SWITCH ID'S WHILE MINECRAFT IS RUNNING",
   "text.autoconfig.ipccraft.option.customPresence.useCustom.@Tooltip": "Enables the Custom features",
   "text.autoconfig.ipccraft.option.customPresence.clientId": "Client ID",
-  "text.autoconfig.ipccraft.option.customPresence.clientId.@Tooltip": "The Client ID to connect to (IT WILL ONLY WORK ON LAUNCH, IT CANNOT CHANGE CLIENT ID'S WHILE MINECRAFT IS RUNNING)",
+  "text.autoconfig.ipccraft.option.customPresence.clientId.@Tooltip": "The Client ID to connect to",
   "text.autoconfig.ipccraft.option.customPresence.detailsString": "Details",
   "text.autoconfig.ipccraft.option.customPresence.stateString": "State",
   "text.autoconfig.ipccraft.option.customPresence.bigImageName": "Big Image Key",
-  "text.autoconfig.ipccraft.option.customPresence.bigImageText": "Big Image Text"
+  "text.autoconfig.ipccraft.option.customPresence.bigImageText": "Big Image Text",
+  "text.autoconfig.ipccraft.option.customPresence.smallImageName": "Small Image Key",
+  "text.autoconfig.ipccraft.option.customPresence.smallImageText": "Small Image Text"
 }

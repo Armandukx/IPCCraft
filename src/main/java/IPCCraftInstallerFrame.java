@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 class IPCCraftInstallerFrame extends JFrame implements ActionListener, MouseListener {
     private static final Pattern IN_MODS_SUBFOLDER = Pattern.compile("1\\.16\\.5[/\\\\]?$");
+    private static final String MCVERSION = "1.16.x";
     private JLabel logo = null;
     private JLabel versionInfo = null;
     private JLabel labelFolder = null;
@@ -153,7 +154,7 @@ class IPCCraftInstallerFrame extends JFrame implements ActionListener, MouseList
                 versionInfo.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
                 versionInfo.setHorizontalAlignment(SwingConstants.CENTER);
                 versionInfo.setPreferredSize(new Dimension(w, h));
-                versionInfo.setText("<html><body>IPCCraft Installer<br><center> for Minecraft 1.16.5</center></body></html>");
+                versionInfo.setText("<html><body>IPCCraft Installer<br><center> for Minecraft "+MCVERSION+"</center></body></html>");
 
                 y += h - 5;
             } catch (Throwable ivjExc) {
@@ -432,7 +433,7 @@ class IPCCraftInstallerFrame extends JFrame implements ActionListener, MouseList
                     if (failed) deletingFailure = true;
                 }
             } else { // We are in the main mods folder, but the 1.20.x subfolder exists... delete in there too.
-                File subFolder = new File(modsFolder, "1.16.5");
+                File subFolder = new File(modsFolder, MCVERSION);
                 if (subFolder.exists() && subFolder.isDirectory()) {
                     boolean failed = findIDTAndDelete(subFolder.listFiles());
                     if (failed) deletingFailure = true;
@@ -507,7 +508,7 @@ class IPCCraftInstallerFrame extends JFrame implements ActionListener, MouseList
     public File getModsFolder() {
         String userHome = System.getProperty("user.home", ".");
 
-        File modsFolder = getFile(userHome, "minecraft/mods/1.16.5");
+        File modsFolder = getFile(userHome, "minecraft/mods/"+MCVERSION);
         if (!modsFolder.exists()) {
             modsFolder = getFile(userHome, "minecraft/mods");
         }
