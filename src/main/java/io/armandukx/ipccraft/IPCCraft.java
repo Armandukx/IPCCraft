@@ -23,6 +23,9 @@ public class IPCCraft implements ClientModInitializer {
 	MinecraftClient client = MinecraftClient.getInstance();
 	private static IPCConfig config;
 	private static DiscordPresence discordPresence;
+	public static boolean _STOPCHECKING = false;
+	private boolean _STOP = false;
+
 	@Override
 	public void onInitializeClient() {
 		// Config
@@ -31,20 +34,27 @@ public class IPCCraft implements ClientModInitializer {
 		AutoConfig.getConfigHolder(ClothConfig.class).getConfig();
 
 		discordPresence = new DiscordPresence();
-		UpdateChecker.init();
 
 		ChangePresence("LMC", client.world);
 
 		ClientTickEvents.START_CLIENT_TICK.register(client -> ChangePresence("Playing Singleplayer", client.world));
 		ClientLifecycleEvents.CLIENT_STOPPING.register(server -> {
+			_STOP = true;
 			System.out.println("Saving IPCConfig");
 			config.saveConfig();
 			System.out.println("Stopping Discord IPC");
 			discordPresence.clearPresence();
 		});
+		ClientTickEvents.END_CLIENT_TICK.register(server -> {
+			if (_STOP){return;}
+			if (!_STOPCHECKING){
+				UpdateChecker.check();
+			}
+		});
 	}
 
 	public void ChangePresence(String StateString, World world){
+		if (_STOP) {return;}
 		if (ClothConfig.CustomPresence.useCustom){
 			discordPresence.Update(ClothConfig.CustomPresence.detailsString, ClothConfig.CustomPresence.stateString, ClothConfig.CustomPresence.bigImageText, ClothConfig.CustomPresence.bigImageName, ClothConfig.CustomPresence.smallImageName, ClothConfig.CustomPresence.smallImageText);
 			return;

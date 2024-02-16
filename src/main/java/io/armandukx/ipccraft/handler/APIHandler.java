@@ -1,60 +1,84 @@
 package io.armandukx.ipccraft.handler;
 
-import com.google.gson.JsonElement;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import io.armandukx.ipccraft.discordipc.IPCClient;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 public class APIHandler {
-    private static final Logger LOGGER = LogManager.getLogger(IPCClient.class);
     public static JsonObject getResponse(String urlString, boolean hasError) {
         try {
             URL url = new URL(urlString);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", "Dsm/1.0");
 
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+                String input;
                 StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
+
+                while ((input = in.readLine()) != null) {
+                    response.append(input);
                 }
-                reader.close();
+                in.close();
 
-                connection.disconnect();
+                Gson gson = new Gson();
 
-                JsonParser jsonParser = new JsonParser();
-                JsonElement jsonElement = jsonParser.parse(response.toString());
-                if (jsonElement.isJsonObject()) {
-                    return jsonElement.getAsJsonObject();
+                return gson.fromJson(response.toString(), JsonObject.class);
+            } else {
+                if (hasError) {
+                    InputStream errorStream = conn.getErrorStream();
+                    try (Scanner scanner = new Scanner(errorStream)) {
+                        scanner.useDelimiter("\\Z");
+                        String error = scanner.next();
+
+                        Gson gson = new Gson();
+                        return gson.fromJson(error, JsonObject.class);
+                    }
                 } else {
-                    LOGGER.debug("Invalid JSON response");
+                    System.out.println("Request failed. HTTP Error Code: " + conn.getResponseCode());
                 }
-            } else {
-                LOGGER.debug("HTTP request failed with response code: " + responseCode);
             }
-
-            connection.disconnect();
-
+        } catch (IOException ex) {
+            System.out.println("An error has occurred. See logs for more details.");
+            ex.printStackTrace();
         }
-        catch (IOException e) {
-            if (hasError) {
-                e.printStackTrace();
-            } else {
-                LOGGER.debug("Error occurred while performing HTTP request: " + e.getMessage());
+
+        return new JsonObject();
+    }
+
+    public static JsonArray getArrayResponse(String urlString) {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String input;
+                StringBuilder response = new StringBuilder();
+
+                while ((input = in.readLine()) != null) {
+                    response.append(input);
+                }
+                in.close();
+
+                Gson gson = new Gson();
+
+                return gson.fromJson(response.toString(), JsonArray.class);
             }
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-        return null;
+        return new JsonArray();
     }
 }
