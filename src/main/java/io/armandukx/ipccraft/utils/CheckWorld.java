@@ -28,8 +28,7 @@ public class CheckWorld {
 
     public static String biome(World world){
         if (world == null) return "NULL";
-        //noinspection OptionalGetWithoutIsPresent
-        String biome = world.getBiome(client.player.getBlockPos()).getKey().get().getValue().toString().toLowerCase().substring(10).replace("_", " ");
+        String biome = WorldInfo.returnBiome(world);
             if (biome.equals("plains") || biome.equals("forest")){
                 return "forest";
             } else if (biome.contains("ocean")) {

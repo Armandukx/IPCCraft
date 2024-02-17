@@ -60,8 +60,7 @@ public class DiscordPresence {
         if (CheckWorld.isSinglePlayer(world)) {
             String DetailsString = (ClothConfig.useBrokenEnglish ? "Currntli" : "Currently") + " in The " + imageText;
             if (instance.player != null){
-                //noinspection OptionalGetWithoutIsPresent
-                StateString = "Playing Singleplayer | In the " + world.getBiome(instance.player.getBlockPos()).getKey().get().getValue().toString().toLowerCase().substring(10).replace("_", " ") + " biome";
+                StateString = "Playing Singleplayer | In the " + WorldInfo.returnBiome(world) + " biome";
             }
             return new String[]{DetailsString, StateString};
         }
@@ -72,7 +71,6 @@ public class DiscordPresence {
                     String ServerAddress = networkHandler.getConnection().getAddress().toString().split("[/\\\\]")[0];
                     int playerCount = networkHandler.getPlayerList().size();
 
-                    //noinspection ConstantValue
                     String DetailsString = ClothConfig.useBrokenEnglish ? "Playin wit " : "Playing with " + playerCount + (ClothConfig.useBrokenEnglish ? " Minecrafters" : " Players");
                     StateString = "Playing Multiplayer";
 
