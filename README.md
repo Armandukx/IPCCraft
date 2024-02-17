@@ -47,3 +47,14 @@ For seamless installation and optimal utilization of the mod, don't hesitate to 
 # 📄License
 
 This project operates under the Attribution-NonCommercial-ShareAlike 4.0 International. For further information, please refer to the [LICENSE](https://github.com/Armandukx/IPCCraft/blob/master/LICENSE) file.
+
+# 🌐 Translations
+
+<details>
+  <summary>Translators</summary>
+  
+American English: American English language made by [Armandukx](https://github.com/Armandukx)
+
+Brazilian Portuguese: Brazilian Portuguese translation made by [Blurryface](https://github.com/blryface)
+  
+</details>
