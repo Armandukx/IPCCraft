@@ -16,7 +16,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
 public class IPCCraft implements ClientModInitializer {
-	public static final String VERSION = "1.0.6";
+	public static final String VERSION = "1.0.10";
 	public static final String MCVERSION = MinecraftVersion.create().getName();
 	public static final String prefix = Formatting.LIGHT_PURPLE + "[I" + Formatting.LIGHT_PURPLE + "P" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "C" + Formatting.LIGHT_PURPLE + "r" + Formatting.LIGHT_PURPLE + "a" + Formatting.LIGHT_PURPLE + "f" + Formatting.LIGHT_PURPLE + "t] " + Formatting.RESET;
 	String currentScreenString = "NULL";
@@ -34,10 +34,8 @@ public class IPCCraft implements ClientModInitializer {
 		AutoConfig.getConfigHolder(ClothConfig.class).getConfig();
 
 		discordPresence = new DiscordPresence();
-
 		ChangePresence("LMC", client.world);
 
-		ClientTickEvents.START_CLIENT_TICK.register(client -> ChangePresence("Playing Singleplayer", client.world));
 		ClientLifecycleEvents.CLIENT_STOPPING.register(server -> {
 			_STOP = true;
 			System.out.println("Saving IPCConfig");
@@ -46,7 +44,9 @@ public class IPCCraft implements ClientModInitializer {
 			discordPresence.clearPresence();
 		});
 		ClientTickEvents.END_CLIENT_TICK.register(server -> {
-			if (_STOP){return;}
+			if (_STOP){discordPresence.clearPresence();
+				return;}
+			ChangePresence("Playing Singleplayer", client.world);
 			if (!_STOPCHECKING){
 				UpdateChecker.check();
 			}
@@ -54,7 +54,6 @@ public class IPCCraft implements ClientModInitializer {
 	}
 
 	public void ChangePresence(String StateString, World world){
-		if (_STOP) {return;}
 		if (ClothConfig.CustomPresence.useCustom){
 			discordPresence.Update(ClothConfig.CustomPresence.detailsString, ClothConfig.CustomPresence.stateString, ClothConfig.CustomPresence.bigImageText, ClothConfig.CustomPresence.bigImageName, ClothConfig.CustomPresence.smallImageName, ClothConfig.CustomPresence.smallImageText);
 			return;
@@ -75,14 +74,11 @@ public class IPCCraft implements ClientModInitializer {
 
 		String DetailsString= "null";
 
-		String[] playerWorldInfo = discordPresence.getWorldInfo(world, imageText);
+		String[] playerWorldInfo = discordPresence.getWorldInfo(world, imageText, StateString);
 
 		if (playerWorldInfo != null && playerWorldInfo.length >= 2) {
 			DetailsString = playerWorldInfo[0];
-
-			if (playerWorldInfo.length >= 3) {
-				StateString = playerWorldInfo[1];
-			}
+			StateString = playerWorldInfo[1];
 
 			if (playerWorldInfo.length >= 4) {
 				imageText = playerWorldInfo[2];

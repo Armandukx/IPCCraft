@@ -5,7 +5,7 @@ import io.armandukx.ipccraft.IPCCraft;
 import io.armandukx.ipccraft.handler.APIHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.ClickEvent;
-import net.minecraft.text.LiteralText;
+
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -28,9 +28,9 @@ public class UpdateChecker {
                     if (IPCCraftVersionInt < versionNumberInt)
                     {
                         String releaseURL = "https://modrinth.com/mod/vQSRr7O4/versions?g="+ IPCCraft.MCVERSION;
-                        LiteralText update = new LiteralText(Formatting.GREEN + "" + Formatting.BOLD + "  [UPDATE]  ");
-                        update.setStyle(update.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, releaseURL)));
-                        MutableText message = new LiteralText(Formatting.BOLD + IPCCraft.prefix + Formatting.DARK_RED + "IPCCraft " + IPCCraft.VERSION + " is outdated. Please update to " + versionNumber + ".\n").append(update);
+                        Text update = Text.literal(Formatting.GREEN + "" + Formatting.BOLD + "  [UPDATE]  ");
+                        update.getWithStyle(update.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, releaseURL)));
+                        MutableText message = Text.literal(Formatting.BOLD + IPCCraft.prefix + Formatting.DARK_RED + "IPCCraft " + IPCCraft.VERSION + " is outdated. Please update to " + versionNumber + ".\n").append(update);
                         mc.player.sendMessage(Text.Serializer.fromJson(Text.Serializer.toJson(message)), false);
                     }
                 } else {

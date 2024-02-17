@@ -19,7 +19,7 @@ public class APIHandler {
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("User-Agent", "Dsm/1.0");
+            conn.setRequestProperty("User-Agent", "IPCCraft/1.0");
 
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));

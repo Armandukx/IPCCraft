@@ -24,8 +24,8 @@
 		"modmenu": [ "io.armandukx.ipccraft.config.ModMenuIntegration" ]
 	},
 	"depends": {
-		"minecraft": "~1.16",
-		"java": "~16",
+		"minecraft": ">=1.19",
+		"java": "~17",
 		"cloth-config2": ">=4.9.0"
 	},
 	"suggests": {

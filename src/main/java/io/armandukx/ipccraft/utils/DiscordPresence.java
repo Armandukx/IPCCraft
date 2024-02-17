@@ -2,7 +2,6 @@ package io.armandukx.ipccraft.utils;
 
 import io.armandukx.ipccraft.IPCCraft;
 import io.armandukx.ipccraft.config.ClothConfig;
-import io.armandukx.ipccraft.config.IPCConfig;
 import io.armandukx.ipccraft.discordipc.IPCClient;
 import io.armandukx.ipccraft.discordipc.IPCListener;
 import io.armandukx.ipccraft.discordipc.entities.RichPresence;
@@ -13,7 +12,6 @@ import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -23,7 +21,7 @@ import java.time.OffsetDateTime;
 public class DiscordPresence {
     IPCClient client = new IPCClient(1200554143874555935L);
     RichPresence.Builder builder = new RichPresence.Builder();
-    MinecraftClient instance = MinecraftClient.getInstance();
+    static MinecraftClient instance = MinecraftClient.getInstance();
     Screen currentScreen = instance.currentScreen;
     private boolean sentMultiConfigMessage = false;
     public DiscordPresence(){
@@ -58,12 +56,12 @@ public class DiscordPresence {
         }
     }
 
-    public String[] getWorldInfo(World world, String imageText) {
+    public String[] getWorldInfo(World world, String imageText, String StateString) {
         if (CheckWorld.isSinglePlayer(world)) {
             String DetailsString = (ClothConfig.useBrokenEnglish ? "Currntli" : "Currently") + " in The " + imageText;
-            String StateString = null;
-            if (instance.player != null) {
-                StateString = "Playing Singleplayer | In the " + world.getBiome(instance.player.getBlockPos()).getCategory().name().toLowerCase() + " biome";
+            if (instance.player != null){
+                //noinspection OptionalGetWithoutIsPresent
+                StateString = "Playing Singleplayer | In the " + world.getBiome(instance.player.getBlockPos()).getKey().get().getValue().toString().toLowerCase().substring(10).replace("_", " ") + " biome";
             }
             return new String[]{DetailsString, StateString};
         }
@@ -76,12 +74,12 @@ public class DiscordPresence {
 
                     //noinspection ConstantValue
                     String DetailsString = ClothConfig.useBrokenEnglish ? "Playin wit " : "Playing with " + playerCount + (ClothConfig.useBrokenEnglish ? " Minecrafters" : " Players");
-                    String StateString = "Playing Multiplayer";
+                    StateString = "Playing Multiplayer";
 
                     imageText = ServerAddress;
                     String imageKey = "https://eu.mc-api.net/v3/server/favicon/" + ServerAddress;
                     if (ClothConfig.sendConfigSettingsMessage && !sentMultiConfigMessage) {
-                        MinecraftClient.getInstance().player.sendMessage(Text.Serializer.fromJson(Text.Serializer.toJson(new LiteralText(IPCCraft.prefix + Formatting.RED + "To configure settings you must be in a singleplayer world!"))), false);
+                        MinecraftClient.getInstance().player.sendMessage(Text.Serializer.fromJson(Text.Serializer.toJson(Text.literal(IPCCraft.prefix + Formatting.RED + "To configure settings you must be in a singleplayer world!"))), false);
                         sentMultiConfigMessage = true;
                     }
 
@@ -97,7 +95,7 @@ public class DiscordPresence {
 
         if (ClothConfig.useClock && world != null) {
             smallImageKey = "https://static.wikia.nocookie.net/minecraft_gamepedia/images/3/3e/Clock_JE3_BE3.gif/revision/latest?cb=20201125194053";
-            smallImageText = "World time: " + TimeConverter.convert(world.getTimeOfDay());
+            smallImageText = "World time: " + TimeConverter.convert(world.getLunarTime());
         } else {
             smallImageKey = "https://mc-heads.net/avatar/" + instance.getSession().getUuid();
             smallImageText = instance.getSession().getUsername();

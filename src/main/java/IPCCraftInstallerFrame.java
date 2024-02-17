@@ -18,8 +18,8 @@ import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 class IPCCraftInstallerFrame extends JFrame implements ActionListener, MouseListener {
-    private static final Pattern IN_MODS_SUBFOLDER = Pattern.compile("1\\.16\\.5[/\\\\]?$");
-    private static final String MCVERSION = "1.16.x";
+    private static final Pattern IN_MODS_SUBFOLDER = Pattern.compile("1\\.19[/\\\\]?$");
+    private static final String MCVERSION = "1.19-1.19.2";
     private JLabel logo = null;
     private JLabel versionInfo = null;
     private JLabel labelFolder = null;
