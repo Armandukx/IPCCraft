@@ -37,7 +37,7 @@ More coming soon, or you could suggest new feature(s) on our [Discord server](ht
 
 ## 🤝Support
 
-For seamless installation and optimal utilization of the mod, don't hesitate to join our [Discord](https://discord.gg/MGrNJqsqZt) community, where you can directly reach out to Armandukx or create a ticket for prompt assistance.
+For seamless installation and optimal utilization of the mod, don't hesitate to join our [Discord](https://discord.gg/MGrNJqsqZt) community.
 #
 [![Discord Server](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/social/discord-plural_64h.png)](https://discord.gg/MGrNJqsqZt)
 
@@ -47,14 +47,3 @@ For seamless installation and optimal utilization of the mod, don't hesitate to 
 # 📄License
 
 This project operates under the Attribution-NonCommercial-ShareAlike 4.0 International. For further information, please refer to the [LICENSE](https://github.com/Armandukx/IPCCraft/blob/master/LICENSE) file.
-
-# 🌐 Translations
-
-<details>
-  <summary>Translators</summary>
-  
-American English: American English language made by [Armandukx](https://github.com/Armandukx)
-
-Brazilian Portuguese: Brazilian Portuguese translation made by [Blurryface](https://github.com/blryface)
-  
-</details>

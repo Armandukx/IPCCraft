@@ -4,16 +4,21 @@
     "text.autoconfig.ipccraft.option.useClock": "Usar relógio",
     "text.autoconfig.ipccraft.option.useClock.tooltip": "Use um relógio ao invés da sua Skin do Minecraft e mostrar a hora do mundo.",
     "text.autoconfig.ipccraft.option.sendConfigSettingsMessage": "Mensagem de Configuração",
-    "text.autoconfig.ipccraft.option.sendConfigSettingsMessage.tooltip": "A mensagem que é enviada num mundo multiplayer.",
+    "text.autoconfig.ipccraft.option.sendConfigSettingsMessage.@Tooltip": "A mensagem que é enviada num mundo multiplayer.",
     "text.autoconfig.ipccraft.option.useBrokenEnglish": "Usar Português informal",
-    "text.autoconfig.ipccraft.option.useBrokenEnglish.tooltip": "Auto-Explicativo.",
     "text.autoconfig.ipccraft.option.promoteIPCCraft": "Fazer propaganda do IPCCraft",
-    "text.autoconfig.ipccraft.option.promoteIPCCraft.tooltip": "Adiciona dois botões que fazem propaganda ao IPCCraft. (aliás, valeu)",
-  
-    "text.autoconfig.ipccraft.option.button1Url": "URL do Botão 1",
-    "text.autoconfig.ipccraft.option.button1Text": "Texto do Botão 1",
-    "text.autoconfig.ipccraft.option.button2Url": "URL do Botão 2",
-    "text.autoconfig.ipccraft.option.button2Text": "Texto do Botão 2",
+    "text.autoconfig.ipccraft.option.displayBiome": "Mostrar bioma",
+
+    "text.autoconfig.ipccraft.option.buttons": "Botões",
+    "text.autoconfig.ipccraft.option.buttons.button1Url": "URL do Botão 1",
+    "text.autoconfig.ipccraft.option.buttons.button1Text": "Texto do Botão 1",
+    "text.autoconfig.ipccraft.option.buttons.button2Url": "URL do Botão 2",
+    "text.autoconfig.ipccraft.option.buttons.button2Text": "Texto do Botão 2",
+
+    "text.autoconfig.ipccraft.option.screenshot": "Capturas de Tela",
+    "text.autoconfig.ipccraft.option.screenshot.enabled": "Ativar Capturas de Tela",
+    "text.autoconfig.ipccraft.option.screenshot.enabled.@PrefixText": "Realiza uma Captura de Tela a cada ... segundos e define como a imagem grande",
+    "text.autoconfig.ipccraft.option.screenshot.timer": "Timer de Captura de tela",
   
     "text.autoconfig.ipccraft.category.custom": "Presence Customizada",
     "text.autoconfig.ipccraft.option.customPresence.useCustom": "Presence Customizada",
@@ -27,6 +32,6 @@
     "text.autoconfig.ipccraft.option.customPresence.bigImageText": "Texto da Imagem Grande",
     "text.autoconfig.ipccraft.option.customPresence.smallImageName": "Nome da Imagem Pequena",
     "text.autoconfig.ipccraft.option.customPresence.smallImageText": "Texto da imagem pequena",
-    
+
     "text.comment.xyz.blryface": "Translation to Brazilian Portuguese made by Blurryface. github.com/blryface"
   }

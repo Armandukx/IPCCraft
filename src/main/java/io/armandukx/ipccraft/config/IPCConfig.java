@@ -40,10 +40,15 @@ public class IPCConfig{
                         case "sendConfigSettingsMessage" -> ClothConfig.sendConfigSettingsMessage = Boolean.parseBoolean(value);
                         case "useBrokenEnglish" -> ClothConfig.useBrokenEnglish = Boolean.parseBoolean(value);
                         case "promoteIPCCraft" -> ClothConfig.promoteIPCCraft = Boolean.parseBoolean(value);
-                        case "button1Url" -> ClothConfig.button1Url = value;
-                        case "button1Text" -> ClothConfig.button1Text = value;
-                        case "button2Url" -> ClothConfig.button2Url = value;
-                        case "button2Text" -> ClothConfig.button2Text = value;
+                        case "displayBiome" -> ClothConfig.displayBiome = Boolean.parseBoolean(value);
+                        case "button1Url" -> ClothConfig.Buttons.button1Url = value;
+                        case "button1Text" -> ClothConfig.Buttons.button1Text = value;
+                        case "button2Url" -> ClothConfig.Buttons.button2Url = value;
+                        case "button2Text" -> ClothConfig.Buttons.button2Text = value;
+
+                        case "enabled" -> ClothConfig.Screenshots.enabled = Boolean.parseBoolean(value);
+                        case "timer" -> ClothConfig.Screenshots.timer = Long.parseLong(value);
+
                         case "useCustom" -> ClothConfig.CustomPresence.useCustom = Boolean.parseBoolean(value);
                         case "customClientId" -> ClothConfig.CustomPresence.clientId = Long.parseLong(value);
                         case "customDetailsString" -> ClothConfig.CustomPresence.detailsString = value;
@@ -69,10 +74,15 @@ public class IPCConfig{
             writer.write("sendConfigSettingsMessage=" + ClothConfig.sendConfigSettingsMessage + "\n");
             writer.write("useBrokenEnglish=" + ClothConfig.useBrokenEnglish + "\n");
             writer.write("promoteIPCCraft=" + ClothConfig.promoteIPCCraft + "\n");
-            writer.write("button1Url=" + ClothConfig.button1Url + "\n");
-            writer.write("button1Text=" + ClothConfig.button1Text + "\n");
-            writer.write("button2Url=" + ClothConfig.button2Url + "\n");
-            writer.write("button2Text=" + ClothConfig.button2Text + "\n");
+            writer.write("displayBiome=" + ClothConfig.displayBiome + "\n");
+            writer.write("button1Url=" + ClothConfig.Buttons.button1Url + "\n");
+            writer.write("button1Text=" + ClothConfig.Buttons.button1Text + "\n");
+            writer.write("button2Url=" + ClothConfig.Buttons.button2Url + "\n");
+            writer.write("button2Text=" + ClothConfig.Buttons.button2Text + "\n");
+
+            writer.write("enabled=" + ClothConfig.Screenshots.enabled + "\n");
+            writer.write("timer=" + ClothConfig.Screenshots.timer + "\n");
+
             writer.write("useCustom=" + ClothConfig.CustomPresence.useCustom + "\n");
             writer.write("customClientId=" + ClothConfig.CustomPresence.clientId + "\n");
             writer.write("customDetailsString=" + ClothConfig.CustomPresence.detailsString + "\n");

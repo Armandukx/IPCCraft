@@ -83,10 +83,10 @@ public class RichPresence
         String button1Text;
         String button2Url;
         String button2Text;
-        button1Url = ClothConfig.button1Url;
-        button1Text = ClothConfig.button1Text;
-        button2Url = ClothConfig.button2Url;
-        button2Text = ClothConfig.button2Text;
+        button1Url = ClothConfig.Buttons.button1Url;
+        button1Text = ClothConfig.Buttons.button1Text;
+        button2Url = ClothConfig.Buttons.button2Url;
+        button2Text = ClothConfig.Buttons.button2Text;
         if (ClothConfig.promoteIPCCraft) {
             button1Url = "https://modrinth.com/mod/ipccraft";
             button1Text = "Download IPCCraft";

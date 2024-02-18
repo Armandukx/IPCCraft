@@ -4,6 +4,7 @@ import io.armandukx.ipccraft.config.ClothConfig;
 import io.armandukx.ipccraft.config.IPCConfig;
 import io.armandukx.ipccraft.utils.CheckWorld;
 import io.armandukx.ipccraft.utils.DiscordPresence;
+import io.armandukx.ipccraft.utils.Screenshot;
 import io.armandukx.ipccraft.utils.UpdateChecker;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -25,7 +26,6 @@ public class IPCCraft implements ClientModInitializer {
 	private static DiscordPresence discordPresence;
 	public static boolean _STOPCHECKING = false;
 	private boolean _STOP = false;
-
 	@Override
 	public void onInitializeClient() {
 		// Config
@@ -34,6 +34,7 @@ public class IPCCraft implements ClientModInitializer {
 		AutoConfig.getConfigHolder(ClothConfig.class).getConfig();
 
 		discordPresence = new DiscordPresence();
+		Screenshot.initScreenshot();
 		ChangePresence("LMC", client.world);
 
 		ClientLifecycleEvents.CLIENT_STOPPING.register(server -> {

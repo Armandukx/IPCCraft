@@ -60,7 +60,7 @@ public class DiscordPresence {
         if (CheckWorld.isSinglePlayer(world)) {
             String DetailsString = (ClothConfig.useBrokenEnglish ? "Currntli" : "Currently") + " in The " + imageText;
             if (instance.player != null){
-                StateString = "Playing Singleplayer | In the " + WorldInfo.returnBiome(world) + " biome";
+                StateString = ClothConfig.displayBiome ? "Playing Singleplayer | In the " + WorldInfo.returnBiome(world) + " biome" : "Playing Singleplayer";
             }
             return new String[]{DetailsString, StateString};
         }
